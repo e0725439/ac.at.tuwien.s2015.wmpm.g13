@@ -10,7 +10,7 @@ package ac.at.tuwien.s2015.wmpm.g13.model;
 
 public class Customer {
 
-	private String customerID;
+	private String name;
 	
 	private String email;
 	
@@ -23,15 +23,15 @@ public class Customer {
 	/**
 	 * @return the customerID
 	 */
-	public String getCustomerID() {
-		return customerID;
+	public String getName() {
+		return name;
 	}
 
 	/**
 	 * @param customerID the customerID to set
 	 */
-	public void setCustomerID(String customerID) {
-		this.customerID = customerID;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
