@@ -6,32 +6,28 @@
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
  * 
  */
-package ac.at.tuwien.s2015.wmpm.g13.model;
+package ac.at.tuwien.s2015.wmpm.g13.model.person;
 
-public class Customer {
+public abstract class Person {
 
-	private String name;
+	private String personId;
 	
 	private String email;
 	
 	private String address;
-	
-	public Customer() {
-		// empty constructor
-	}
-	
+
 	/**
-	 * @return the customerID
+	 * @return the personId
 	 */
-	public String getName() {
-		return name;
+	public String getPersonId() {
+		return personId;
 	}
 
 	/**
-	 * @param customerID the customerID to set
+	 * @param personId the personId to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setPersonId(String personId) {
+		this.personId = personId;
 	}
 
 	/**
@@ -61,6 +57,5 @@ public class Customer {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
 	
 }

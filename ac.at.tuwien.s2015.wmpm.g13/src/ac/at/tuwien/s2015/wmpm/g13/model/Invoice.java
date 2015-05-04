@@ -1,36 +1,72 @@
+/**
+ * Copyright (c) 2015. All rights reserved.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS".
+ * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
+ * 
+ */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.util.Date;
 
 public class Invoice {
 
-	private double totalPrice;
-	private List<Product> products;
-	private Supplier supplier;
-	private Customer customer;
-		
-	public Supplier getSupplier() {
-		return supplier;
+	private Order order;
+
+	private BigDecimal totalPrice;
+
+	// the date the invoice was issued on
+	private Date creationDate;
+
+	public Invoice() {
+		// empty constructor
 	}
-	public void setSupplier(Supplier supplier) {
-		this.supplier = supplier;
+	
+	/**
+	 * @return the order
+	 */
+	public Order getOrder() {
+		return order;
 	}
-	public Customer getCustomer() {
-		return customer;
+
+	/**
+	 * @param order
+	 *            the order to set
+	 */
+	public void setOrder(Order order) {
+		this.order = order;
 	}
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-	public double getTotalPrice() {
+
+	/**
+	 * @return the totalPrice
+	 */
+	public BigDecimal getTotalPrice() {
 		return totalPrice;
 	}
-	public void setTotalPrice(double totalPrice) {
+
+	/**
+	 * @param totalPrice
+	 *            the totalPrice to set
+	 */
+	public void setTotalPrice(BigDecimal totalPrice) {
 		this.totalPrice = totalPrice;
 	}
-	public List<Product> getProducts() {
-		return products;
+
+	/**
+	 * @return the creationDate
+	 */
+	public Date getCreationDate() {
+		return creationDate;
 	}
-	public void setProducts(List<Product> products) {
-		this.products = products;
-	}	
+
+	/**
+	 * @param creationDate
+	 *            the creationDate to set
+	 */
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
+	}
+
 }
