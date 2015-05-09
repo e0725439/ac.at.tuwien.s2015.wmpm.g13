@@ -7,6 +7,11 @@
 	<packaging>war</packaging>
 	<name>wmpm</name>
 	<description>wmpm</description>
+
+	<properties>
+		<camel.version>2.15.2</camel.version>
+	</properties>
+
 	<dependencies>
 		<!-- MongoDB -->
 		<dependency>
@@ -55,27 +60,56 @@
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-core</artifactId>
-			<version>2.15.1</version>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring-javaconfig</artifactId>
+			<version>${camel.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jetty</artifactId>
-			<version>2.15.1</version>
+			<version>${camel.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-xstream</artifactId>
-			<version>2.15.1</version>
+			<version>${camel.version}</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.apache.camel</groupId>
 			<artifactId>camel-jackson</artifactId>
-			<version>2.15.1</version>
+			<version>${camel.version}</version>
 		</dependency>
-		
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>1.7.0.RELEASE</version>
+		</dependency>
+
 		<!-- JSON -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>
