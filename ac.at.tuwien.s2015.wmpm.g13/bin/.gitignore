@@ -2,3 +2,6 @@
 .settings/
 target/
 *.iml
+/resources/
+/src/
+/test/
