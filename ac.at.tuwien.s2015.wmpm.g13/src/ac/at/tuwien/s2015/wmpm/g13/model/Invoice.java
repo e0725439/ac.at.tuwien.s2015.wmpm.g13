@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class Invoice {
 
-	private Order order;
+	private SimpleOrder order;
 
 	private BigDecimal totalPrice;
 
@@ -27,7 +27,7 @@ public class Invoice {
 	/**
 	 * @return the order
 	 */
-	public Order getOrder() {
+	public SimpleOrder getOrder() {
 		return order;
 	}
 
@@ -35,7 +35,7 @@ public class Invoice {
 	 * @param order
 	 *            the order to set
 	 */
-	public void setOrder(Order order) {
+	public void setOrder(SimpleOrder order) {
 		this.order = order;
 	}
 

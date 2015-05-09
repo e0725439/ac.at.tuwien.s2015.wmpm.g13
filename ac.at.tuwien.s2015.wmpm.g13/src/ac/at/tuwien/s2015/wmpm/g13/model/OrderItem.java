@@ -53,4 +53,12 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "OrderItem [product=" + product + ", quantity=" + quantity + "]";
+	}
+	
 }

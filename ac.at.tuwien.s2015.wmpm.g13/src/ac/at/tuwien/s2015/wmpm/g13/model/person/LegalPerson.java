@@ -57,5 +57,16 @@ public class LegalPerson extends Person {
 	public void setCountryCourt(String countryCourt) {
 		this.countryCourt = countryCourt;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "LegalPerson [name=" + name + ", registrationNumber="
+				+ registrationNumber + ", countryCourt=" + countryCourt
+				+ ", getPersonId()=" + getPersonId() + ", getEmail()="
+				+ getEmail() + ", getAddress()=" + getAddress() + "]";
+	}
 	
 }

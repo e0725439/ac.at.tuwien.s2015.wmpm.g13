@@ -11,17 +11,17 @@ package ac.at.tuwien.s2015.wmpm.g13.model;
 import java.util.Date;
 import java.util.List;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
+import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 
-public class Order {
+public class BusinessOrder {
 
 	private String orderId;
 
 	// the person (either natural or legal) who receives the order
-	private Person customer;
+	private LegalPerson customer;
 
 	// the person (either natural or legal) who sends the order
-	private Person supplier;
+	private LegalPerson supplier;
 
 	// date when the order is received
 	private Date orderDate;
@@ -32,27 +32,8 @@ public class Order {
 	// list of order items: i.e. product and product quantity
 	private List<OrderItem> orderItems;
 
-	public Order() {
+	public BusinessOrder() {
 		// empty constructor
-	}
-
-	public Order(Person customer, Person supplier, Date orderDate,
-			Date sendDate, List<OrderItem> orderItems) {
-		this.customer = customer;
-		this.supplier = supplier;
-		this.orderDate = orderDate;
-		this.sendDate = sendDate;
-		this.orderItems = orderItems;
-	}
-
-	public Order(String orderId, Person customer, Person supplier,
-			Date orderDate, Date sendDate, List<OrderItem> orderItems) {
-		this.orderId = orderId;
-		this.customer = customer;
-		this.supplier = supplier;
-		this.orderDate = orderDate;
-		this.sendDate = sendDate;
-		this.orderItems = orderItems;
 	}
 
 	/**
@@ -73,7 +54,7 @@ public class Order {
 	/**
 	 * @return the customer
 	 */
-	public Person getCustomer() {
+	public LegalPerson getCustomer() {
 		return customer;
 	}
 
@@ -81,14 +62,14 @@ public class Order {
 	 * @param customer
 	 *            the customer to set
 	 */
-	public void setCustomer(Person customer) {
+	public void setCustomer(LegalPerson customer) {
 		this.customer = customer;
 	}
 
 	/**
 	 * @return the supplier
 	 */
-	public Person getSupplier() {
+	public LegalPerson getSupplier() {
 		return supplier;
 	}
 
@@ -96,7 +77,7 @@ public class Order {
 	 * @param supplier
 	 *            the supplier to set
 	 */
-	public void setSupplier(Person supplier) {
+	public void setSupplier(LegalPerson supplier) {
 		this.supplier = supplier;
 	}
 
@@ -144,5 +125,16 @@ public class Order {
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "Order [orderId=" + orderId + ", customer=" + customer
+				+ ", supplier=" + supplier + ", orderDate=" + orderDate
+				+ ", sendDate=" + sendDate + ", orderItems=" + orderItems + "]";
+	}
+	
 
 }

@@ -44,4 +44,16 @@ public class NaturalPerson extends Person {
 		this.lastname = lastname;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "NaturalPerson [firstname=" + firstname + ", lastname="
+				+ lastname + ", getPersonId()=" + getPersonId()
+				+ ", getEmail()=" + getEmail() + ", getAddress()="
+				+ getAddress() + "]";
+	}
+
+	
 }
