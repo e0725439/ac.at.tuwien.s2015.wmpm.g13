@@ -6,6 +6,7 @@ import org.apache.camel.builder.RouteBuilder;
 
 public class JettyRouteBuilder extends RouteBuilder {
 	public void configure() {
+		
 		from("jetty:http://localhost:8181/mytestservice").process(
 				new Processor() {
 					@Override

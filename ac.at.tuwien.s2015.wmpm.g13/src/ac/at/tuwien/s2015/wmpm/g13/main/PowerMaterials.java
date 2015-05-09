@@ -19,7 +19,7 @@ public class PowerMaterials extends Main {
 		powerMaterials.enableHangupSupport();
 		powerMaterials.addRouteBuilder(new JettyRouteBuilder());
 		powerMaterials.setApplicationContext(context);
-		powerMaterials.run(args);
+		powerMaterials.run();
 	}
 	
 	public void run() {
