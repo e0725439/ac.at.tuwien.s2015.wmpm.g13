@@ -26,7 +26,6 @@ public class PowerMaterials extends Main {
 			super.run();
 		} catch (Exception e) {
 			LOGGER.error("Cannot start app with Spring, caused by " + e.getMessage());
-			e.printStackTrace();
 		}
 	}
 }
