@@ -21,7 +21,7 @@ public class PowerMaterialsConfig extends CamelConfiguration {
 
 	@Override
 	protected void setupCamelContext(CamelContext camelContext) throws Exception {
-		// setup...
+		
 	}
 	
 }
