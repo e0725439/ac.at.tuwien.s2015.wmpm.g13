@@ -13,10 +13,7 @@ import org.junit.Test;
 
 import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoDBConnectionProvider;
 
-import com.mongodb.CommandResult;
 import com.mongodb.DB;
-import com.mongodb.DBObject;
-import com.mongodb.util.JSON;
 
 public class MongoDBConnectionProviderTest {
 
@@ -25,8 +22,6 @@ public class MongoDBConnectionProviderTest {
 		DB db = MongoDBConnectionProvider.getInstance().getDB();
 		Assert.assertNotNull(db);
 		Assert.assertTrue(db.isAuthenticated());
-		DBObject t = (DBObject)JSON.parse("{'test':'test'}");
-		db.getCollection("test").insert(t);
 	}
 
 }
