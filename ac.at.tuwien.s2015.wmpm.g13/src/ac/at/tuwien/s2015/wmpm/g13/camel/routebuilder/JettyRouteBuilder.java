@@ -29,8 +29,13 @@ public class JettyRouteBuilder extends RouteBuilder {
 	private static final Logger LOGGER = Logger
 			.getLogger(JettyRouteBuilder.class);
 	
-	@Autowired
 	private OrderProcessBean orderProcessBean;
+	
+	@Autowired
+	public JettyRouteBuilder(OrderProcessBean orderProcessBean) {
+		this.orderProcessBean = orderProcessBean;
+	}
+	
 	
 	public void configure() {
 

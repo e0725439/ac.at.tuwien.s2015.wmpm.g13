@@ -15,8 +15,12 @@ public class OrderProcessBean implements Processor{
 
 	private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 	
-	@Autowired
 	private Mongo myDb;
+	
+	@Autowired
+	public OrderProcessBean(Mongo myDb) {
+		this.myDb = myDb;
+	}
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
