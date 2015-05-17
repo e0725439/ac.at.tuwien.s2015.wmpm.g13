@@ -11,6 +11,7 @@
 	<properties>
 		<camel.version>2.15.2</camel.version>
 		<jetty.version>8.1.0.v20120127</jetty.version>
+		<activemq.version>5.11.1</activemq.version>
 	</properties>
 
 	<dependencies>
@@ -127,8 +128,24 @@
 			<artifactId>spring-core</artifactId>
 			<version>4.1.6.RELEASE</version>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
  
-
+ 		<!-- MAIL -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.3</version>
+		</dependency>		
+		
 		<!-- JSON -->
 		<dependency>
 			<groupId>org.codehaus.jackson</groupId>

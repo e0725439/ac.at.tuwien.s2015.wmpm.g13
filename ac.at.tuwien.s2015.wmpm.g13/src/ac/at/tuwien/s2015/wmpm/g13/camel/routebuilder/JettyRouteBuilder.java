@@ -60,7 +60,9 @@ public class JettyRouteBuilder extends RouteBuilder {
 		from("direct:order_put")
 				.process(orderProcessBean)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-				.wireTap("mongodb:myDb?database=wmpm_test1&collection=wmpm.orders.received&operation=insert");
+				.wireTap("mongodb:myDb?database=wmpm_test1&collection=wmpm.orders.received&operation=insert")
+				.inOnly("seda:confirmation-email.queue")
+				.end();
 
 		// TEST ORDER CREATION AND SERVICE
 		rest("/services/rest").get("/test/simpleorder")
