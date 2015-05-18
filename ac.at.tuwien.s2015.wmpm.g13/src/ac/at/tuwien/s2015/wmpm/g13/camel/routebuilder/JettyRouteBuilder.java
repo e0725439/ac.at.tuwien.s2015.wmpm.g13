@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierProcessBean;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -30,10 +31,12 @@ public class JettyRouteBuilder extends RouteBuilder {
 			.getLogger(JettyRouteBuilder.class);
 	
 	private OrderProcessBean orderProcessBean;
+	private SupplierProcessBean supplierProcessBean;
 	
 	@Autowired
-	public JettyRouteBuilder(OrderProcessBean orderProcessBean) {
+	public JettyRouteBuilder(OrderProcessBean orderProcessBean, SupplierProcessBean supplierProcessBean) {
 		this.orderProcessBean = orderProcessBean;
+		this.supplierProcessBean = supplierProcessBean;
 	}
 	
 	
@@ -54,13 +57,23 @@ public class JettyRouteBuilder extends RouteBuilder {
 				.setBody().constant("Invalid json data");
 
 		rest("/services/rest").put("/simpleorder").consumes("application/json")
-				.type(SimpleOrder.class).produces("text/html")
+				.type(SimpleOrder.class).produces("application/json")
 				.to("direct:order_put");
 
 		from("direct:order_put")
 				.process(orderProcessBean)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-				.wireTap("mongodb:myDb?database=wmpm_test1&collection=wmpm.orders.received&operation=insert");
+				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm.orders.received&operation=insert");
+
+		// SUPPLIER PROCESS
+		rest("services/rest").put("/supplier/order").consumes("application/json")
+				.type(SimpleOrder.class).produces("application/json")
+				.to("direct:supplierOrder_put");
+
+		from("direct:supplierOrder_put")
+				.process(supplierProcessBean)
+				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
+				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm.supplier.orders&operation=insert");
 
 		// TEST ORDER CREATION AND SERVICE
 		rest("/services/rest").get("/test/simpleorder")
