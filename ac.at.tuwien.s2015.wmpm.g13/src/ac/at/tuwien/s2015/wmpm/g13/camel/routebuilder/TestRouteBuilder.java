@@ -5,8 +5,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -28,10 +31,12 @@ public class TestRouteBuilder extends RouteBuilder {
     private static final Logger LOGGER = Logger
             .getLogger(JettyRouteBuilder.class);
     private DatabaseProductProcessBean databaseProductProcessBean;
+    private DatabaseOrderItemProcessBean databaseOrderItemProcessBean;
 
     @Autowired
-    public TestRouteBuilder(DatabaseProductProcessBean databaseProductProcessBean) {
+    public TestRouteBuilder(DatabaseProductProcessBean databaseProductProcessBean, DatabaseOrderItemProcessBean databaseOrderItemProcessBean) {
         this.databaseProductProcessBean = databaseProductProcessBean;
+        this.databaseOrderItemProcessBean = databaseOrderItemProcessBean;
     }
 
 
@@ -95,15 +100,33 @@ public class TestRouteBuilder extends RouteBuilder {
 
         }).marshal().json(JsonLibrary.Jackson);
 
+
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
-
         from("direct:generate_product").process(databaseProductProcessBean)
-                .wireTap("mongodb:myDb?database=wmpm_clemens&collection=wmpm.product&operation=insert");
+                .wireTap("mongodb:myDb?database=wmpm_master&collection=wmpm.product&operation=insert")
+                .to("direct:orderitem");
+        from("direct:orderitem").process(databaseOrderItemProcessBean)
+                .wireTap("mongodb:myDb?database=wmpm_master&collection=wmpm.item.stock&operation=insert")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
-//        from("direct:orderitem").process(databaseOrderItemProcessBean)
-//                .wireTap("mongodb:myDb?database=wmpm_clemens&collection=wmpm.item.stock&operation=insert")
-//                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
+
+        rest("/services/rest").get("/test/dropdb")
+                .produces("application/json").to("direct:dropdb");
+        from("direct:dropdb").process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to("mongodb:myDb?database=wmpm_master&operation=command")
+                .process(new Processor() {
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
+                        exchange.getIn().setBody(commandBody);
+                    }
+                }).to("mongodb:myDb?database=wmpm_master&operation=command");
     }
 
 }
