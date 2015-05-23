@@ -2,7 +2,6 @@ package ac.at.tuwien.s2015.wmpm.g13.model;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
