@@ -8,7 +8,11 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-public class OrderItem {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mongodb.BasicDBObject;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class OrderItem extends BasicDBObject {
 
 	private Product product;
 

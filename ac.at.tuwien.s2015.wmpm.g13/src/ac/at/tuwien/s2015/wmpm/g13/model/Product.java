@@ -8,21 +8,24 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.math.BigDecimal;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Product {
 
 	private String productId;
 
 	private String name;
 
-	private BigDecimal price;
+	private double price;
 
 	public Product() {
 		// default constructor
 	}
 
-	public Product(String productId, String name, BigDecimal price) {
+	public Product(String productId, String name, double price) {
 		this.productId = productId;
 		this.name = name;
 		this.price = price;
@@ -61,7 +64,7 @@ public class Product {
 	/**
 	 * @return the price
 	 */
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
@@ -69,7 +72,7 @@ public class Product {
 	 * @param price
 	 *            the price to set
 	 */
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

@@ -8,14 +8,17 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import java.math.BigDecimal;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Invoice {
 
 	private SimpleOrder order;
 
-	private BigDecimal totalPrice;
+	private double totalPrice;
 
 	// the date the invoice was issued on
 	private Date creationDate;
@@ -42,7 +45,7 @@ public class Invoice {
 	/**
 	 * @return the totalPrice
 	 */
-	public BigDecimal getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 
@@ -50,7 +53,7 @@ public class Invoice {
 	 * @param totalPrice
 	 *            the totalPrice to set
 	 */
-	public void setTotalPrice(BigDecimal totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
