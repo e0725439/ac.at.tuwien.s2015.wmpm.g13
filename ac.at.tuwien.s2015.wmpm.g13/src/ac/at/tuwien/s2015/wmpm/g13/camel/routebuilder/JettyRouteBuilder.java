@@ -58,8 +58,16 @@ public class JettyRouteBuilder extends RouteBuilder {
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
 				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.receivedOrders&operation=insert");
 
-		// Daily SupplierProcess
+		// Daily FacebookProcess
+		from("quartz2://cron=0/10+*+*+*+*+?")
+				.process(new Processor() {
+					@Override
+					public void process(Exchange exchange) throws Exception {
+						LOGGER.info("Writing facebook special coupon on the powermaterials wall");
+					}
+				});
 
+		// Daily SupplierProcess
 		from("quartz2://cron=0/10+*+*+*+*+?")
 				.to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=findAll")
 //				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=remove")
