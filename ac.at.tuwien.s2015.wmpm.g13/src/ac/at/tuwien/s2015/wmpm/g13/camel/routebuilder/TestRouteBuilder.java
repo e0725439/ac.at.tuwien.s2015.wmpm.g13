@@ -78,8 +78,8 @@ public class TestRouteBuilder extends RouteBuilder {
 
                 Product product = new Product();
                 product.setName("Hammer");
-                product.setPrice(new BigDecimal("10"));
-                product.setProductId("10023");
+                product.setPrice(new BigDecimal("4.99"));
+                product.setProductId("1");
 
                 OrderItem item = new OrderItem();
                 item.setProduct(product);
