@@ -2,14 +2,12 @@ package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
-import com.mongodb.Mongo;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,11 +19,8 @@ import java.util.List;
 public class DatabaseOrderItemProcessBean implements Processor {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
-    private Mongo myDb;
-
     @Autowired
-    public DatabaseOrderItemProcessBean(Mongo myDb) {
-        this.myDb = myDb;
+    public DatabaseOrderItemProcessBean() {
     }
 
     @Override
@@ -34,41 +29,22 @@ public class DatabaseOrderItemProcessBean implements Processor {
 
         List<Product> products = exchange.getIn().getBody(List.class);
 
-        OrderItem orderItem1 = new OrderItem();
-        orderItem1.setProduct(products.get(0));
-        orderItem1.setQuantity(400);
-
-        OrderItem orderItem2 = new OrderItem();
-        orderItem2.setProduct(products.get(1));
-        orderItem2.setQuantity(175);
-
-        OrderItem orderItem3 = new OrderItem();
-        orderItem3.setProduct((products.get(2)));
-        orderItem3.setQuantity(324);
-
-        OrderItem orderItem4 = new OrderItem();
-        orderItem4.setProduct(products.get(3));
-        orderItem4.setQuantity(98);
-
-        OrderItem orderItem5 = new OrderItem();
-        orderItem5.setProduct(products.get(4));
-        orderItem5.setQuantity(623);
-
-        OrderItem orderItem6 = new OrderItem();
-        orderItem6.setProduct(products.get(5));
-        orderItem6.setQuantity(71);
-
-        OrderItem orderItem7 = new OrderItem();
-        orderItem7.setProduct(products.get(6));
-        orderItem7.setQuantity(213);
-
-        OrderItem orderItem8 = new OrderItem();
-        orderItem8.setProduct(products.get(7));
-        orderItem8.setQuantity(82);
-
-        OrderItem orderItem9 = new OrderItem();
-        orderItem9.setProduct(products.get(8));
-        orderItem9.setQuantity(145);
+        OrderItem orderItem1 = new OrderItem(products.get(0), 32);
+        OrderItem orderItem2 = new OrderItem(products.get(1), 87);
+        OrderItem orderItem3 = new OrderItem(products.get(2), 68);
+        OrderItem orderItem4 = new OrderItem(products.get(3), 98);
+        OrderItem orderItem5 = new OrderItem(products.get(4), 143);
+        OrderItem orderItem6 = new OrderItem(products.get(5), 71);
+        OrderItem orderItem7 = new OrderItem(products.get(6), 65);
+        OrderItem orderItem8 = new OrderItem(products.get(7), 82);
+        OrderItem orderItem9 = new OrderItem(products.get(8), 145);
+        OrderItem orderItem10 = new OrderItem(products.get(9), 52);
+        OrderItem orderItem11 = new OrderItem(products.get(10), 32);
+        OrderItem orderItem12 = new OrderItem(products.get(11), 75);
+        OrderItem orderItem13 = new OrderItem(products.get(12), 65);
+        OrderItem orderItem14 = new OrderItem(products.get(13), 46);
+        OrderItem orderItem15 = new OrderItem(products.get(14), 212);
+        OrderItem orderItem16 = new OrderItem(products.get(15), 198);
 
         orderItems.add(orderItem1);
         orderItems.add(orderItem2);
@@ -79,6 +55,13 @@ public class DatabaseOrderItemProcessBean implements Processor {
         orderItems.add(orderItem7);
         orderItems.add(orderItem8);
         orderItems.add(orderItem9);
+        orderItems.add(orderItem10);
+        orderItems.add(orderItem11);
+        orderItems.add(orderItem12);
+        orderItems.add(orderItem13);
+        orderItems.add(orderItem14);
+        orderItems.add(orderItem15);
+        orderItems.add(orderItem16);
         exchange.getIn().setBody(orderItems);
     }
 }
