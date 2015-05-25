@@ -13,6 +13,11 @@ package ac.at.tuwien.s2015.wmpm.g13.provider.db;
  */
 public enum DBProperty {
 
+	MONGO_DB_COLLECTION_SIMPLEORDER("mongo_db_collection_simpleorder"), //
+	MONGO_DB_COLLECTION_BUSINESSORDER("mongo_db_collection_businessorder"), //
+	MONGO_DB_COLLECTION_LOGGEDORDER("mongo_db_collection_loggedorder"), //
+	MONGO_DB_COLLECTION_ITEMSTOCK("mongo_db_collection_itemstock"), //
+	
 	MONGO_DB_HOST("mongo_db_host"), //
 	MONGO_DB_PORT("mongo_db_port"), //
 	MONGO_DB_NAME("mongo_db_name"), //

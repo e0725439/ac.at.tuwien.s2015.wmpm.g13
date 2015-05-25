@@ -5,6 +5,8 @@ import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
+
 @Component
 public class BusinessOrderProcessBean implements Processor {
 
@@ -12,8 +14,9 @@ public class BusinessOrderProcessBean implements Processor {
 	
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		LOGGER.debug("Received something...");
-		System.err.println("\n\n\n#########\n\n\n#########\n\n\n#########");
+		LOGGER.debug("Business Order was received: ");
+		BusinessOrder order = exchange.getIn().getBody(BusinessOrder.class);
+		LOGGER.debug(order);	
 	}
 
 }

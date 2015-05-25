@@ -18,6 +18,8 @@ import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
+import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
+import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
@@ -35,6 +37,12 @@ public class JettyRouteBuilder extends RouteBuilder {
 
 	public void configure() {
 
+		String wireTapRoute = "mongodb:myDb?database=" 
+				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME) 
+				+ "&collection=" 
+				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_SIMPLEORDER)
+				+ "&operation=insert";
+		
 		// define error behaviour
 		onException(UnrecognizedPropertyException.class).handled(true)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
@@ -48,8 +56,7 @@ public class JettyRouteBuilder extends RouteBuilder {
 		from("direct:order_put")
 				.process(orderProcessBean)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-				.wireTap(
-						"mongodb:myDb?database=wmpm_master&collection=wmpm.orders.received&operation=insert");
+				.wireTap(wireTapRoute);
 
 		// TEST ORDER CREATION AND SERVICE
 		rest("/services/rest").get("/test/simpleorder")
