@@ -2,6 +2,7 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.OrderItemEnricherBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
+import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -59,7 +60,7 @@ public class JettyRouteBuilder extends RouteBuilder {
 				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.receivedOrders&operation=insert");
 
 		// Daily FacebookProcess
-		from("quartz2://cron=0/10+*+*+*+*+?")
+		from("quartz2://facebookTimer/cron=0/10+*+*+*+*+?").routeId("cronFacebookProcess")
 				.process(new Processor() {
 					@Override
 					public void process(Exchange exchange) throws Exception {
@@ -68,8 +69,9 @@ public class JettyRouteBuilder extends RouteBuilder {
 				});
 
 		// Daily SupplierProcess
-		from("quartz2://cron=0/10+*+*+*+*+?")
+		from("quartz2://supplierTimer/cron=0/10+*+*+*+*+?").routeId("cronSupplierProcess")
 				.to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=findAll")
+//						.convertBodyTo(OrderItem[].class)
 //				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=remove")
 				.to("direct:supplier_missingOrderItems");
 

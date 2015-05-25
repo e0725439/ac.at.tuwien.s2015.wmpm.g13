@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.mongodb.BasicDBObject;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
-public class OrderItem extends BasicDBObject {
+public class OrderItem {
 
 	private Product product;
 
