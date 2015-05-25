@@ -49,7 +49,7 @@ public class JettyRouteBuilder extends RouteBuilder {
 				.process(orderProcessBean)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
 				.wireTap(
-						"mongodb:myDb?database=wmpm_flo&collection=wmpm.orders.received&operation=insert");
+						"mongodb:myDb?database=wmpm_master&collection=wmpm.orders.received&operation=insert");
 
 		// TEST ORDER CREATION AND SERVICE
 		rest("/services/rest").get("/test/simpleorder")

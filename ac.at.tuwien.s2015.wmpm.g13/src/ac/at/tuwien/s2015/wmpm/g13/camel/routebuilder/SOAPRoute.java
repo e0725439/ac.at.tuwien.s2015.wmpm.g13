@@ -24,8 +24,10 @@ public class SOAPRoute extends RouteBuilder {
 	
 	public void configure() throws Exception {
 		LOGGER.debug("Configuring soap endpoint...");
-		from(uri).process(businessOrderProcessBean);
-
+		from(uri).to("direct:businessorder_soap");
+		
+		from("direct:businessorder_soap").process(businessOrderProcessBean)
+		.wireTap("mongodb:myDb?database=wmpm_master&collection=wmpm.businessorders.received&operation=insert");
 	}
 
 }
