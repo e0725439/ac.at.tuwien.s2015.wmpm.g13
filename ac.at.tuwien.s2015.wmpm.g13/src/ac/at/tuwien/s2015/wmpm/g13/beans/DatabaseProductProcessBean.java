@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class DatabaseProductProcessBean implements Processor {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
-    @Autowired
     public DatabaseProductProcessBean() {
     }
 

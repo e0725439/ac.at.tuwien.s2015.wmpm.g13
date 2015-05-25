@@ -19,7 +19,6 @@ import java.util.List;
 public class DatabaseOrderItemProcessBean implements Processor {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
-    @Autowired
     public DatabaseOrderItemProcessBean() {
     }
 
