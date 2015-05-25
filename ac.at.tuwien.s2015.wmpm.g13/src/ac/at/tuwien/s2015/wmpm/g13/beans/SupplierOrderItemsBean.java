@@ -2,10 +2,12 @@ package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
+import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.TestData;
-import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
@@ -48,7 +50,7 @@ public class SupplierOrderItemsBean implements Processor {
         Invoice invoice = new Invoice();
         invoice.setCreationDate(new Date());
         SimpleOrder simpleOrder = new SimpleOrder();
-        simpleOrder.setCustomer(TestData.getCompany());
+        simpleOrder.setCustomer(TestData.getCustomer());
         simpleOrder.setSendDate(new Date());
         simpleOrder.setOrderItems(orderItems);
         simpleOrder.setSupplier(TestData.getSupplier());

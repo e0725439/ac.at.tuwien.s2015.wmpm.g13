@@ -1,9 +1,12 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
 import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.apache.log4j.Logger;
@@ -19,8 +22,7 @@ import java.util.List;
 @Component
 public class OrderItemEnricherBean implements AggregationStrategy{
 
-    private static final Logger LOGGER = Logger
-            .getLogger(OrderItemEnricherBean.class);
+    private static final Logger LOGGER = Logger.getLogger(OrderItemEnricherBean.class);
 
     @Override
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
@@ -36,7 +38,11 @@ public class OrderItemEnricherBean implements AggregationStrategy{
             for (OrderItem newOrderItem : newOrderItems) {
                 if(oldOrderItem.getProduct().getProductId().equals(newOrderItem.getProduct().getProductId())) {
                     found = true;
-                    newOrderItem.setQuantity(newOrderItem.getQuantity()+oldOrderItem.getQuantity());
+                    try {
+						newOrderItem.setQuantity(newOrderItem.getQuantity()+oldOrderItem.getQuantity());
+					} catch (DataModelException e) {
+						LOGGER.error(e.getMessage(), e);
+					}
                     actualOrderItems.add(newOrderItem);
                     break;
                 }

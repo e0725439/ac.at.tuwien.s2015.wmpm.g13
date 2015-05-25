@@ -17,12 +17,12 @@ public class DailyFacebookRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Daily FacebookProcess
-        from("quartz2://facebookTimer/cron=0/10+*+*+*+*+?").routeId("cronFacebookProcess")
-                .process(new Processor() {
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        LOGGER.info("Writing facebook special coupon on the powermaterials wall");
-                    }
-                });
+//        from("quartz2://facebookTimer/cron=0/10+*+*+*+*+?").routeId("cronFacebookProcess")
+//                .process(new Processor() {
+//                    @Override
+//                    public void process(Exchange exchange) throws Exception {
+//                        LOGGER.info("Writing facebook special coupon on the powermaterials wall");
+//                    }
+//                });
     }
 }

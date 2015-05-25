@@ -38,7 +38,18 @@ public class OrderItem {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	/**
+	 * @param quantity
+	 *            the quantity to set
+	 * @throws DataModelException 
+	 */
+	
+	public void setQuantity(int quantity) throws DataModelException {
+		
+		if(quantity < 1){
+			throw new DataModelException("OrderItem quantity must be 1 or more.");
+		}
+		
 		this.quantity = quantity;
 	}
 

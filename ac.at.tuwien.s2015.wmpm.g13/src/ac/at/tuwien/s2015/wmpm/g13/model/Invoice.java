@@ -8,7 +8,6 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
