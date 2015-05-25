@@ -9,13 +9,12 @@
 package ac.at.tuwien.s2015.wmpm.g13.provider.db;
 
 
-import java.net.UnknownHostException;
-
+import com.mongodb.DB;
+import com.mongodb.MongoClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.mongodb.DB;
-import com.mongodb.MongoClient;
+import java.net.UnknownHostException;
 
 public class MongoDBConnectionProvider {
 

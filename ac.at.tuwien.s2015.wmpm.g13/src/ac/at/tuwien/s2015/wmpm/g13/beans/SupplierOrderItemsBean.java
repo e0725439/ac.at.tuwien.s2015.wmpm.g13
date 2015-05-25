@@ -2,11 +2,10 @@ package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
-import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.TestData;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
@@ -28,12 +27,13 @@ public class SupplierOrderItemsBean implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
         LOGGER.info("Got a new order for missingOrders, now creating the invoice and sending it back again");
-        exchange.getIn().setBody(getInvoice(parseOrderItems(exchange.getIn().getBody(List.class))));
+        List<BasicDBObject> basicDBObjects = exchange.getIn().getBody(List.class);
+        exchange.getIn().setBody(getInvoice(parseOrderItems(basicDBObjects)));
     }
 
     private List<OrderItem> parseOrderItems(List<BasicDBObject> objects) {
         List<OrderItem> orderItems = new ArrayList<>();
-        for (Object object : objects) {
+        for (BasicDBObject object : objects) {
             try {
                 orderItems.add(new ObjectMapper().readValue(object.toString(), OrderItem.class));
             } catch (IOException e) {

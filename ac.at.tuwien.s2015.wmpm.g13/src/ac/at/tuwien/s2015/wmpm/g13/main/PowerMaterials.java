@@ -1,11 +1,10 @@
 package ac.at.tuwien.s2015.wmpm.g13.main;
 
+import ac.at.tuwien.s2015.wmpm.g13.camel.config.PowerMaterialsConfig;
 import org.apache.camel.spring.Main;
 import org.apache.log4j.Logger;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
-
-import ac.at.tuwien.s2015.wmpm.g13.camel.config.PowerMaterialsConfig;
 
 @Component
 public class PowerMaterials extends Main {

@@ -25,7 +25,8 @@ public class OrderItemEnricherBean implements AggregationStrategy{
     @Override
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
         Invoice invoice = oldExchange.getIn().getBody(Invoice.class);    // vom supplier
-        List<OrderItem> newOrderItems = parseOrderItems(newExchange.getIn().getBody(List.class));    // aus der datenbank
+        List<BasicDBObject> basicDBObjects = newExchange.getIn().getBody(List.class);
+        List<OrderItem> newOrderItems = parseOrderItems(basicDBObjects);    // aus der datenbank
         List<OrderItem> actualOrderItems = new ArrayList<>();
 
         LOGGER.info("Enriching orderItems from database and supplier, costs in total: " + invoice.getTotalPrice());
