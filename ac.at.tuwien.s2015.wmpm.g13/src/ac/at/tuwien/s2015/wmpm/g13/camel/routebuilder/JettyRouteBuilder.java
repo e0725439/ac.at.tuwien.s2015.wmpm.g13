@@ -9,7 +9,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +24,7 @@ import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 @Component
 public class JettyRouteBuilder extends RouteBuilder {
 
-	private static final Logger LOGGER = Logger.getLogger(JettyRouteBuilder.class);
+//	private static final Logger LOGGER = Logger.getLogger(JettyRouteBuilder.class);
 
 	private OrderProcessBean orderProcessBean;
 
