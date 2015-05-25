@@ -36,7 +36,8 @@ public class SOAPRoute extends RouteBuilder {
 		from(uri).setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201)).to("direct:businessorder_soap");
 		
 		from("direct:businessorder_soap").process(businessOrderProcessBean)
-		.wireTap(wireTapRoute);
+		.wireTap(wireTapRoute)
+		.inOnly("seda:confirmation-email.queue");
 	}
 
 }

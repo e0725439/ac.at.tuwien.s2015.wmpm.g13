@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.OrderProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
@@ -43,11 +44,17 @@ public class JettyRouteBuilder extends RouteBuilder {
 				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_SIMPLEORDER)
 				+ "&operation=insert";
 		
-		// define error behaviour
+		// DEFINE BEHAVIOR ON JSON SCHEMA PROBLEMS
 		onException(UnrecognizedPropertyException.class).handled(true)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
 				.setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
 				.setBody().constant("Invalid json data");
+		
+		// DEFINE BEHAVIOR ON DATA MODEL PROBLEMS
+		onException(DataModelException.class).handled(true)
+				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+				.setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
+				.setBody().simple("Invalid data values:\n${exception.message}");
 
 		rest("/services/rest").put("/simpleorder").consumes("application/json")
 				.type(SimpleOrder.class).produces("text/html")
@@ -56,7 +63,10 @@ public class JettyRouteBuilder extends RouteBuilder {
 		from("direct:order_put")
 				.process(orderProcessBean)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-				.wireTap(wireTapRoute);
+				.wireTap(wireTapRoute)
+				.inOnly("seda:confirmation-email.queue")
+				.end();
+
 
 		// TEST ORDER CREATION AND SERVICE
 		rest("/services/rest").get("/test/simpleorder")
