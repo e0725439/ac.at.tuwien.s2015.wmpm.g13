@@ -6,20 +6,16 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.eclipse.jetty.util.ajax.JSON;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
 import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
 import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoDBConnectionProvider;
 
 import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 public class RestRouteTest {
 	
