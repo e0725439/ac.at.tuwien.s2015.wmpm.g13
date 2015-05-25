@@ -34,7 +34,7 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
     	
-    	String wireTapRoute = "mongodb:myDb?database=" 
+    	String wireTapRouteMissings = "mongodb:myDb?database="
 				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME) 
 				+ "&collection=" 
 				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_MISSINGORDERITEMS);
@@ -45,9 +45,9 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
 				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_ITEMSTOCK);
     	
         // Daily SupplierProcess
-        from("quartz2://supplierTimer/cron=30+*+*+*+*+?").routeId("cronSupplierProcess")
-                .to(wireTapRoute + "&operation=findAll")
-//				.wireTap(wireTapRoute + "&operation=remove")
+        from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
+                .to(wireTapRouteMissings + "&operation=findAll")
+//				.wireTap(wireTapRouteMissings + "&operation=remove")
                 .to("direct:supplier_missingOrderItems");
 
         from("direct:supplier_missingOrderItems")
@@ -71,8 +71,7 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
                 });
 
         from("direct:company_putOrderItems")
-                .enrich(wireTapRouteStockItems + "&operation=findAll", orderItemEnricherBean);
-//                .wireTap(wireTapRouteStockItems + "&operation=update");
-
+                .enrich(wireTapRouteStockItems + "&operation=findAll", orderItemEnricherBean)
+                .wireTap(wireTapRouteStockItems + "&operation=save");
     }
 }
