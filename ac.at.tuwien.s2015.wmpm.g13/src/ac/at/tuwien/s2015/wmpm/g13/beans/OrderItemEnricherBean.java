@@ -1,13 +1,10 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
 import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
-
+import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
-
-import com.mongodb.DBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
 import org.apache.log4j.Logger;
@@ -21,64 +18,44 @@ import java.util.List;
  * Created by mattias on 5/22/2015.
  */
 @Component
-public class OrderItemEnricherBean implements AggregationStrategy{
+public class OrderItemEnricherBean implements AggregationStrategy {
 
     private static final Logger LOGGER = Logger.getLogger(OrderItemEnricherBean.class);
 
     @Override
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
+        ObjectMapper objectMapper = new ObjectMapper();
         Invoice invoice = oldExchange.getIn().getBody(Invoice.class);    // vom supplier
         List<BasicDBObject> basicDBObjects = newExchange.getIn().getBody(List.class); // aus der datebank
-        List<OrderItem> newOrderItems = parseOrderItems(basicDBObjects);    // aus der datenbank
-        List<OrderItem> actualNewOrderItems = new ArrayList<>();
+        List<BasicDBObject> newBasicDBObjects = new ArrayList<>();
 
         LOGGER.info("Enriching orderItems from database and supplier, costs in total: " + invoice.getTotalPrice());
 
-        for(OrderItem oldOrderItem : invoice.getOrder().getOrderItems()) {
+        for (OrderItem newOrderItem : invoice.getOrder().getOrderItems()) {
             boolean found = false;
-            for (OrderItem newOrderItem : newOrderItems) {
-                if(oldOrderItem.getProduct().getProductId().equals(newOrderItem.getProduct().getProductId())) {
-                    found = true;
-                    try {
-						newOrderItem.setQuantity(newOrderItem.getQuantity()+oldOrderItem.getQuantity());
-					} catch (DataModelException e) {
-						LOGGER.error(e.getMessage(), e);
-					}
-                    actualNewOrderItems.add(newOrderItem);
+            for (BasicDBObject basicDBObject : basicDBObjects) {
+                Product oldProduct = null;
+                try {
+                    oldProduct = objectMapper.readValue(basicDBObject.get("product").toString(), Product.class);
+                } catch (IOException e) {
+                    LOGGER.error("Can not parse Product, cause of " + e.getMessage());
+                }
+                int quantity = basicDBObject.getInt("quantity");
+                if (oldProduct.getName().equals(newOrderItem.getProduct().getName())) {
+                    quantity = newOrderItem.getQuantity() + quantity;
+                    basicDBObject.put("quantity", quantity);
+                    newBasicDBObjects.add(basicDBObject);
                     break;
                 }
             }
-            if(!found) {
-                actualNewOrderItems.add(oldOrderItem);
+            if (!found) {
+                BasicDBObject newBasicDBObject = new BasicDBObject();
+                newBasicDBObject.put("product", newOrderItem.getProduct());
+                newBasicDBObject.put("quantity", newOrderItem.getQuantity());
+                newBasicDBObjects.add(newBasicDBObject);
             }
         }
-        oldExchange.getIn().setBody(convertOrderItems(actualNewOrderItems));
+        oldExchange.getOut().setBody(newBasicDBObjects);
         return oldExchange;
-    }
-
-    private List<DBObject> convertOrderItems(List<OrderItem> orderItems) {
-        ObjectMapper objectMapper = new ObjectMapper();
-        List<DBObject> dbObjects = new ArrayList<>();
-        for(OrderItem orderItem : orderItems) {
-            try {
-                BasicDBObject basicDBObject = new ObjectMapper().readValue(objectMapper.writeValueAsString(orderItem), BasicDBObject.class);
-                dbObjects.add((BasicDBObject) basicDBObject.copy());
-            } catch (IOException e) {
-                LOGGER.error("Error parsing orderItem, cause " + e.getMessage());
-            }
-        }
-        return dbObjects;
-    }
-
-    private List<OrderItem> parseOrderItems(List<BasicDBObject> objects) {
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (Object object : objects) {
-            try {
-                orderItems.add(new ObjectMapper().readValue(object.toString(), OrderItem.class));
-            } catch (IOException e) {
-                LOGGER.error("Error parsing orderItem, cause " + e.getMessage());
-            }
-        }
-        return orderItems;
     }
 }

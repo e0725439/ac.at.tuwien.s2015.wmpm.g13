@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class OrderItem {
 
 	private Product product;
-
 	private int quantity;
 
 	public OrderItem() {
