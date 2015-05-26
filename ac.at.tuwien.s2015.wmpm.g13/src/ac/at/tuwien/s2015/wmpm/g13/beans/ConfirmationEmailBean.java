@@ -13,33 +13,33 @@ import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 @Component
 public class ConfirmationEmailBean implements Processor {
 
-	private static final Logger LOGGER = Logger
-			.getLogger(ConfirmationEmailBean.class);
+    private static final Logger LOGGER = Logger
+            .getLogger(ConfirmationEmailBean.class);
 
-	private JavaMailSender mailSender;
+    private JavaMailSender mailSender;
 
-	private SimpleMailMessage confirmationMail;
+    private SimpleMailMessage confirmationMail;
 
-	@Autowired
-	public ConfirmationEmailBean(JavaMailSender mailSender,
-			SimpleMailMessage confirmationMail) {
-		this.mailSender = mailSender;
-		this.confirmationMail = confirmationMail;
-	}
+    @Autowired
+    public ConfirmationEmailBean(JavaMailSender mailSender,
+                                 SimpleMailMessage confirmationMail) {
+        this.mailSender = mailSender;
+        this.confirmationMail = confirmationMail;
+    }
 
-	@Override
-	public void process(Exchange exchange) throws Exception {
-		// TODO: split emails for customers: business & simple
-		SimpleOrder order = exchange.getIn().getBody(SimpleOrder.class);
-		
-		LOGGER.debug("WILL SEND CONFIRMATION MAIL FOR ORDER: " + order);
-		LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "
-				+ order.getCustomer().getEmail());
+    @Override
+    public void process(Exchange exchange) throws Exception {
+        // TODO: split emails for customers: business & simple
+        SimpleOrder order = exchange.getIn().getBody(SimpleOrder.class);
 
-		this.confirmationMail.setText("We have received an order with the ID "
-				+ order.getOrderId());
-		this.mailSender.send(this.confirmationMail);
+        LOGGER.debug("WILL SEND CONFIRMATION MAIL FOR ORDER: " + order);
+        LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "
+                + order.getCustomer().getEmail());
 
-		LOGGER.debug("CONFIRMATION EMAIL SENT!");
-	}
+        this.confirmationMail.setText("We have received an order with the ID "
+                + order.getOrderId());
+        this.mailSender.send(this.confirmationMail);
+
+        LOGGER.debug("CONFIRMATION EMAIL SENT!");
+    }
 }

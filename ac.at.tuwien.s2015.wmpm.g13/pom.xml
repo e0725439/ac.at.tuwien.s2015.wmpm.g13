@@ -11,8 +11,8 @@
 	<properties>
 		<camel.version>2.15.2</camel.version>
 		<jetty.version>8.1.0.v20120127</jetty.version>
-		<activemq.version>5.11.1</activemq.version>		
-		<apachecxf.version>2.7.0</apachecxf.version>	
+		<activemq.version>5.11.1</activemq.version>
+		<apachecxf.version>2.7.0</apachecxf.version>
 	</properties>
 
 	<dependencies>
@@ -165,12 +165,12 @@
 			<version>4.1.6.RELEASE</version>
 		</dependency>
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context-support</artifactId>
-            <version>4.1.6.RELEASE</version>
-        </dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>4.1.6.RELEASE</version>
+		</dependency>
 
- 		<!-- MAIL -->
+		<!-- MAIL -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -180,8 +180,8 @@
 			<groupId>javax.mail</groupId>
 			<artifactId>javax.mail-api</artifactId>
 			<version>1.5.3</version>
-		</dependency>		
-		
+		</dependency>
+
 
 		<!-- JSON -->
 		<dependency>
