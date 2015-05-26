@@ -28,22 +28,22 @@ public class DatabaseOrderItemProcessBean implements Processor {
 
         List<Product> products = exchange.getIn().getBody(List.class);
 
-        OrderItem orderItem1 = new OrderItem(products.get(0), 32);
-        OrderItem orderItem2 = new OrderItem(products.get(1), 87);
-        OrderItem orderItem3 = new OrderItem(products.get(2), 68);
-        OrderItem orderItem4 = new OrderItem(products.get(3), 98);
-        OrderItem orderItem5 = new OrderItem(products.get(4), 143);
-        OrderItem orderItem6 = new OrderItem(products.get(5), 71);
-        OrderItem orderItem7 = new OrderItem(products.get(6), 65);
-        OrderItem orderItem8 = new OrderItem(products.get(7), 82);
-        OrderItem orderItem9 = new OrderItem(products.get(8), 145);
-        OrderItem orderItem10 = new OrderItem(products.get(9), 52);
-        OrderItem orderItem11 = new OrderItem(products.get(10), 32);
-        OrderItem orderItem12 = new OrderItem(products.get(11), 75);
-        OrderItem orderItem13 = new OrderItem(products.get(12), 65);
-        OrderItem orderItem14 = new OrderItem(products.get(13), 46);
-        OrderItem orderItem15 = new OrderItem(products.get(14), 212);
-        OrderItem orderItem16 = new OrderItem(products.get(15), 198);
+        OrderItem orderItem1 = new OrderItem(products.get(0), 1);
+        OrderItem orderItem2 = new OrderItem(products.get(1), 3);
+        OrderItem orderItem3 = new OrderItem(products.get(2), 2);
+        OrderItem orderItem4 = new OrderItem(products.get(3), 5);
+        OrderItem orderItem5 = new OrderItem(products.get(4), 7);
+        OrderItem orderItem6 = new OrderItem(products.get(5), 2);
+        OrderItem orderItem7 = new OrderItem(products.get(6), 9);
+        OrderItem orderItem8 = new OrderItem(products.get(7), 4);
+        OrderItem orderItem9 = new OrderItem(products.get(8), 8);
+        OrderItem orderItem10 = new OrderItem(products.get(9), 9);
+        OrderItem orderItem11 = new OrderItem(products.get(10), 11);
+        OrderItem orderItem12 = new OrderItem(products.get(11), 3);
+        OrderItem orderItem13 = new OrderItem(products.get(12), 6);
+        OrderItem orderItem14 = new OrderItem(products.get(13), 7);
+        OrderItem orderItem15 = new OrderItem(products.get(14), 2);
+        OrderItem orderItem16 = new OrderItem(products.get(15), 3);
 
         orderItems.add(orderItem1);
         orderItems.add(orderItem2);
