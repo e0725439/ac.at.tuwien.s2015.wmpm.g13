@@ -7,6 +7,8 @@ import java.util.List;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
+import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -26,7 +28,7 @@ import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 
 @Component
-public class TestRouteBuilder extends RouteBuilder {
+public class TestRoute extends RouteBuilder {
 
     private static final Logger LOGGER = Logger
             .getLogger(JettyRouteBuilder.class);
@@ -34,7 +36,7 @@ public class TestRouteBuilder extends RouteBuilder {
     private DatabaseOrderItemProcessBean databaseOrderItemProcessBean;
 
     @Autowired
-    public TestRouteBuilder(DatabaseProductProcessBean databaseProductProcessBean, DatabaseOrderItemProcessBean databaseOrderItemProcessBean) {
+    public TestRoute(DatabaseProductProcessBean databaseProductProcessBean, DatabaseOrderItemProcessBean databaseOrderItemProcessBean) {
         this.databaseProductProcessBean = databaseProductProcessBean;
         this.databaseOrderItemProcessBean = databaseOrderItemProcessBean;
     }
@@ -104,10 +106,19 @@ public class TestRouteBuilder extends RouteBuilder {
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
         from("direct:generate_product").process(databaseProductProcessBean)
-                .wireTap("mongodb:myDb?database=wmpm_master&collection=wmpm.product&operation=insert")
+                .wireTap("mongodb:myDb?database="
+                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
+                        + "&collection="
+                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_PRODUCT)
+                        + "&operation=insert")
                 .to("direct:orderitem");
         from("direct:orderitem").process(databaseOrderItemProcessBean)
                 .wireTap("mongodb:myDb?database=wmpm_master&collection=wmpm.item.stock&operation=insert")
+                .wireTap("mongodb:myDb?database="
+                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
+                        + "&collection="
+                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_ITEMSTOCK)
+                        + "&operation=insert")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
 
@@ -119,14 +130,18 @@ public class TestRouteBuilder extends RouteBuilder {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
                 exchange.getIn().setBody(commandBody);
             }
-        }).to("mongodb:myDb?database=wmpm_master&operation=command")
+        }).to("mongodb:myDb?database="
+                + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
+                + "&operation=command")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
                         exchange.getIn().setBody(commandBody);
                     }
-                }).to("mongodb:myDb?database=wmpm_master&operation=command");
+                }).to("mongodb:myDb?database="
+                + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
+                + "&operation=command");
     }
 
 }
