@@ -4,6 +4,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
@@ -16,21 +17,17 @@ public class ConfirmationEmailBean implements Processor {
     private static final Logger LOGGER = Logger
             .getLogger(ConfirmationEmailBean.class);
 
+    @Autowired
     private JavaMailSender mailSender;
 
-    private SimpleMailMessage confirmationMail;
-
     @Autowired
-    public ConfirmationEmailBean(JavaMailSender mailSender,
-                                 SimpleMailMessage confirmationMail) {
-        this.mailSender = mailSender;
-        this.confirmationMail = confirmationMail;
-    }
+    @Qualifier("confirmationEmail")
+    private SimpleMailMessage confirmationMail;
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        // TODO: split emails for customers: business & simple
-        SimpleOrder order = exchange.getIn().getBody(SimpleOrder.class);
+
+    	SimpleOrder order = exchange.getIn().getBody(SimpleOrder.class);
 
         LOGGER.debug("WILL SEND CONFIRMATION MAIL FOR ORDER: " + order);
         LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "

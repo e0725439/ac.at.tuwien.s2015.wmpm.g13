@@ -64,4 +64,10 @@
         <property name="from" value="powermaterials2015@gmail.com"></property>
         <property name="subject" value="Confirmation Mail for Order"/>
     </bean>
+    
+    <bean id="businessConfirmationEmail" class="org.springframework.mail.SimpleMailMessage">
+        <property name="to" value="powermaterials2015@gmail.com"></property>
+        <property name="from" value="business-powermaterials2015@gmail.com"></property>
+        <property name="subject" value="Confirmation Mail for Business Order"/>
+    </bean>
 </beans>
