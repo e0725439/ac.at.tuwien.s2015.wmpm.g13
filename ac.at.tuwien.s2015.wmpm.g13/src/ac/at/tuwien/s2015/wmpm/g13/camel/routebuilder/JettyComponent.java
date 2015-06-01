@@ -5,9 +5,6 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.JettyConfigProvider;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.JettyProperty;
-
 @Component
 public class JettyComponent extends RouteBuilder {
 
@@ -19,8 +16,8 @@ public class JettyComponent extends RouteBuilder {
 
         // define and add the jetty component
         restConfiguration().component("jetty")
-                .host(JettyConfigProvider.getString(JettyProperty.JETTY_HOST))
-                .port(JettyConfigProvider.getString(JettyProperty.JETTY_PORT))
+                .host("{{jetty_host}}")
+                .port("{{jetty_port}}")
                 .bindingMode(RestBindingMode.auto);
 
         LOGGER.debug("Jetty server started succesfully.");

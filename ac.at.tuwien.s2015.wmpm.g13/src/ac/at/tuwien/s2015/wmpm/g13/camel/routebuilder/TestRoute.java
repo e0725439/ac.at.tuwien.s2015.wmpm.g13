@@ -5,27 +5,24 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.JsonLibrary;
-import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 @Component
 public class TestRoute extends RouteBuilder {
@@ -43,18 +40,8 @@ public class TestRoute extends RouteBuilder {
 
 
     public void configure() {
-//        // define and add the jetty component
-//        restConfiguration().component("jetty").host("localhost").port(8181)
-//                .bindingMode(RestBindingMode.auto);
-//
-//        LOGGER.debug("Jetty server started succesfully.");
-//
-//        // define error behaviour
-//        onException(UnrecognizedPropertyException.class).handled(true)
-//                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
-//                .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
-//                .setBody().constant("Invalid json data");
-        // TEST ORDER CREATION AND SERVICE
+    	LOGGER.debug("Configuring TestRoute");
+    	
         rest("/services/rest").get("/test/simpleorder")
                 .produces("application/json").to("direct:generate_restorder");
 
@@ -106,19 +93,10 @@ public class TestRoute extends RouteBuilder {
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
         from("direct:generate_product").process(databaseProductProcessBean)
-                .wireTap("mongodb:myDb?database="
-                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
-                        + "&collection="
-                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_PRODUCT)
-                        + "&operation=insert")
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
                 .to("direct:orderitem");
         from("direct:orderitem").process(databaseOrderItemProcessBean)
-                .wireTap("mongodb:myDb?database=wmpm_master&collection=wmpm.item.stock&operation=insert")
-                .wireTap("mongodb:myDb?database="
-                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
-                        + "&collection="
-                        + MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_ITEMSTOCK)
-                        + "&operation=insert")
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
 
@@ -130,18 +108,14 @@ public class TestRoute extends RouteBuilder {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
                 exchange.getIn().setBody(commandBody);
             }
-        }).to("mongodb:myDb?database="
-                + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
-                + "&operation=command")
+        }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
                         exchange.getIn().setBody(commandBody);
                     }
-                }).to("mongodb:myDb?database="
-                + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
-                + "&operation=command");
+                }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command");
     }
 
 }

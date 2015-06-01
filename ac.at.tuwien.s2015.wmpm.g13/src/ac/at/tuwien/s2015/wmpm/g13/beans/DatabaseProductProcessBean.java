@@ -1,14 +1,14 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.Product;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
+import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 
 
 /**
@@ -23,21 +23,24 @@ public class DatabaseProductProcessBean implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+    	
+    	LOGGER.debug("Processing DatabaseProductProcessBean");
+    	
         ArrayList<Product> products = new ArrayList<>();
         Product product1 = new Product("1", "Hammer", new BigDecimal("4.99"));
         Product product2 = new Product("2", "Schraubenzieher Set 6 teilig ", new BigDecimal("19.99"));
         Product product3 = new Product("3", "Holzaxt", new BigDecimal("13.99"));
         Product product4 = new Product("4", "Werkzeugkoffer", new BigDecimal("48.99"));
-        Product product5 = new Product("5", "Arbeitsgürtel", new BigDecimal("16.99"));
+        Product product5 = new Product("5", "Arbeitsguertel", new BigDecimal("16.99"));
         Product product6 = new Product("6", "Akkubohrer", new BigDecimal("49.99"));
         Product product7 = new Product("7", "Flachzange", new BigDecimal("24.99"));
-        Product product8 = new Product("8", "Baumsäge", new BigDecimal("9.49"));
-        Product product9 = new Product("9", "Metallsäge", new BigDecimal("13.49"));
-        Product product10 = new Product("10", "Wandfarbe weiß, matt 10L", new BigDecimal("49.99"));
+        Product product8 = new Product("8", "Baumsaege", new BigDecimal("9.49"));
+        Product product9 = new Product("9", "Metallsaege", new BigDecimal("13.49"));
+        Product product10 = new Product("10", "Wandfarbe weiss, matt 10L", new BigDecimal("49.99"));
         Product product11 = new Product("11", "Rohrzange", new BigDecimal("8.49"));
         Product product12 = new Product("12", "Sackkarre", new BigDecimal("39.99"));
-        Product product13 = new Product("13", "Vorhangschloß mit 2 Schlüssel", new BigDecimal("11.79"));
-        Product product14 = new Product("14", "Zahlenvorhangschloß", new BigDecimal("14.39"));
+        Product product13 = new Product("13", "Vorhangschloss mit 2 Schluessel", new BigDecimal("11.79"));
+        Product product14 = new Product("14", "Zahlenvorhangschloss", new BigDecimal("14.39"));
         Product product15 = new Product("15", "Gewebeband 50cm x 50m", new BigDecimal("7.15"));
         Product product16 = new Product("16", "Schmierspray 400ml", new BigDecimal("9.99"));
 

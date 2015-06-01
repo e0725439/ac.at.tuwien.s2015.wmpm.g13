@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.BusinessOrderProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
 
 @Component
 public class SOAPRoute extends RouteBuilder {
@@ -26,17 +24,11 @@ public class SOAPRoute extends RouteBuilder {
     }
 
     public void configure() throws Exception {
-        String wireTapRoute = "mongodb:myDb?database="
-                + MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME)
-                + "&collection="
-                + MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_BUSINESSORDER)
-                + "&operation=insert";
-
         LOGGER.debug("Configuring soap endpoint...");
         from(uri).setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201)).to("direct:businessorder_soap");
 
         from("direct:businessorder_soap").process(businessOrderProcessBean)
-                .wireTap(wireTapRoute)
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
                 .inOnly("seda:confirmation-email.queue");
     }
 

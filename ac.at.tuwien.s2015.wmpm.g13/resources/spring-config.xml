@@ -32,6 +32,16 @@
             </list>
         </property>
     </bean>
+    
+ 	<bean id="properties" class="org.apache.camel.component.properties.PropertiesComponent">
+    	<property name="locations" >
+    		<list>
+              <value>classpath:mongo_db.properties</value>
+              <value>classpath:mail.properties</value>
+              <value>classpath:jetty.properties</value>
+          </list>
+    	</property>
+	</bean>
 
     <bean id="myDb" class="com.mongodb.Mongo">
         <constructor-arg index="0">
