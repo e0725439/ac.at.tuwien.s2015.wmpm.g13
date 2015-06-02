@@ -38,7 +38,7 @@
     		<list>
               <value>classpath:mongo_db.properties</value>
               <value>classpath:mail.properties</value>
-              <value>classpath:webservice.properties</value>
+              <value>classpath:webservices.properties</value>
           </list>
     	</property>
 	</bean>
