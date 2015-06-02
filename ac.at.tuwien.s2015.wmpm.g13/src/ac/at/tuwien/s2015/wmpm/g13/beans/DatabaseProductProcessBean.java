@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +15,13 @@ import ac.at.tuwien.s2015.wmpm.g13.model.Product;
  * Created by e1025735 on 21.05.15.
  */
 @Component
-public class DatabaseProductProcessBean implements Processor {
+public class DatabaseProductProcessBean{
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
     public DatabaseProductProcessBean() {
     }
 
-    @Override
+    @Handler
     public void process(Exchange exchange) throws Exception {
     	
     	LOGGER.debug("Processing DatabaseProductProcessBean");

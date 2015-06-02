@@ -45,7 +45,7 @@ public class JettyRouteBuilder extends RouteBuilder {
 				.to("direct:order_put");
 
 		from("direct:order_put")
-				.process(orderProcessBean)
+				.bean(orderProcessBean)
 				.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
 				.wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_simpleorder}}&operation=insert")
 				.inOnly("seda:confirmation-email.queue")

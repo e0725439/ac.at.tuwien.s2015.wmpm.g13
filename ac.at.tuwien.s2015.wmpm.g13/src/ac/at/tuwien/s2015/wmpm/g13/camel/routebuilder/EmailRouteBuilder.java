@@ -34,9 +34,9 @@ public class EmailRouteBuilder extends RouteBuilder {
         from("seda:confirmation-email.queue")
         .choice()
 	        .when(isSimpleOrder)
-	        	.process(confirmationEmailBean)
+	        	.bean(confirmationEmailBean)
 	        .otherwise()
-	        	.process(businessConfirmationEmailBean);
+	        	.bean(businessConfirmationEmailBean);
 
     }
 

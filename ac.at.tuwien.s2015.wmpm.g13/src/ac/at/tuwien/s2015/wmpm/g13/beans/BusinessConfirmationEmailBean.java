@@ -1,7 +1,7 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import org.apache.camel.Body;
+import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
 
 @Component
-public class BusinessConfirmationEmailBean implements Processor {
+public class BusinessConfirmationEmailBean{
 
     private static final Logger LOGGER = Logger
             .getLogger(BusinessConfirmationEmailBean.class);
@@ -24,10 +24,9 @@ public class BusinessConfirmationEmailBean implements Processor {
     @Qualifier("businessConfirmationEmail")
     private SimpleMailMessage confirmationMail;
 
-    @Override
-    public void process(Exchange exchange) throws Exception {
-        BusinessOrder order = exchange.getIn().getBody(BusinessOrder.class);
-
+    @Handler
+    public void process(@Body BusinessOrder order) throws Exception {
+        
         LOGGER.debug("WILL SEND BUSINESS CONFIRMATION MAIL FOR ORDER: " + order);
         LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "
                 + order.getCustomer().getEmail());

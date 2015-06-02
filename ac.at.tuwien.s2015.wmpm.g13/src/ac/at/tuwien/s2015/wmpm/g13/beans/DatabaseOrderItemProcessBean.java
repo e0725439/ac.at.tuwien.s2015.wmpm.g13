@@ -2,10 +2,10 @@ package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
+
 import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,13 +16,13 @@ import java.util.List;
  * Created by e1025735 on 21.05.15.
  */
 @Component
-public class DatabaseOrderItemProcessBean implements Processor {
+public class DatabaseOrderItemProcessBean{
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
     public DatabaseOrderItemProcessBean() {
     }
 
-    @Override
+    @Handler
     public void process(Exchange exchange) throws Exception {
         ArrayList<OrderItem> orderItems = new ArrayList<>();
 

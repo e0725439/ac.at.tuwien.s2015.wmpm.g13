@@ -92,12 +92,15 @@ public class TestRoute extends RouteBuilder {
 
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
-        from("direct:generate_product").process(databaseProductProcessBean)
-                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
-                .to("direct:orderitem");
-        from("direct:orderitem").process(databaseOrderItemProcessBean)
-                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
-                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
+        from("direct:generate_product")
+        	.bean(databaseProductProcessBean)
+            .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
+            .to("direct:orderitem");
+        
+        from("direct:orderitem")
+        	.bean(databaseOrderItemProcessBean)
+            .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
+            .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
 
         rest("/services/rest").get("/test/dropdb")

@@ -27,9 +27,10 @@ public class SOAPRoute extends RouteBuilder {
         LOGGER.debug("Configuring soap endpoint...");
         from(uri).setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201)).to("direct:businessorder_soap");
 
-        from("direct:businessorder_soap").process(businessOrderProcessBean)
-                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
-                .inOnly("seda:confirmation-email.queue");
+        from("direct:businessorder_soap")
+        	.bean(businessOrderProcessBean)
+            .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
+            .inOnly("seda:confirmation-email.queue");
     }
 
 }
