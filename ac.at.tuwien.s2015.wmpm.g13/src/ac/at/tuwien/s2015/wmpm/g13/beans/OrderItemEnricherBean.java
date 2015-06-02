@@ -1,5 +1,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
 import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
@@ -26,36 +27,29 @@ public class OrderItemEnricherBean implements AggregationStrategy {
     public Exchange aggregate(Exchange oldExchange, Exchange newExchange) {
         ObjectMapper objectMapper = new ObjectMapper();
         Invoice invoice = oldExchange.getIn().getBody(Invoice.class);    // vom supplier
-        List<BasicDBObject> basicDBObjects = newExchange.getIn().getBody(List.class); // aus der datebank
-        List<BasicDBObject> newBasicDBObjects = new ArrayList<>();
+        List<OrderItem> basicDBObjects = newExchange.getIn().getBody(List.class); // aus der datebank
+        List<OrderItem> newOrderItems= new ArrayList<>();
 
         LOGGER.info("Enriching orderItems from database and supplier, costs in total: " + invoice.getTotalPrice());
 
         for (OrderItem newOrderItem : invoice.getOrder().getOrderItems()) {
             boolean found = false;
-            for (BasicDBObject basicDBObject : basicDBObjects) {
-                Product oldProduct = null;
-                try {
-                    oldProduct = objectMapper.readValue(basicDBObject.get("product").toString(), Product.class);
-                } catch (IOException e) {
-                    LOGGER.error("Can not parse Product, cause of " + e.getMessage());
-                }
-                int quantity = basicDBObject.getInt("quantity");
-                if (oldProduct.getName().equals(newOrderItem.getProduct().getName())) {
-                    quantity = newOrderItem.getQuantity() + quantity;
-                    basicDBObject.put("quantity", quantity);
-                    newBasicDBObjects.add(basicDBObject);
+            for (OrderItem basicDBObject : basicDBObjects) {
+                if (basicDBObject.getProduct().getName().equals(newOrderItem.getProduct().getName())) {
+                    try {
+                        newOrderItem.setQuantity(newOrderItem.getQuantity()+basicDBObject.getQuantity());
+                    } catch (DataModelException e) {
+                        LOGGER.error("Validation expcetion, cause of " + e.getMessage());
+                    }
+                    newOrderItems.add(basicDBObject);
                     break;
                 }
             }
             if (!found) {
-                BasicDBObject newBasicDBObject = new BasicDBObject();
-                newBasicDBObject.put("product", newOrderItem.getProduct());
-                newBasicDBObject.put("quantity", newOrderItem.getQuantity());
-                newBasicDBObjects.add(newBasicDBObject);
+                newOrderItems.add(newOrderItem);
             }
         }
-        oldExchange.getOut().setBody(newBasicDBObjects);
+        oldExchange.getIn().setBody(newOrderItems);
         return oldExchange;
     }
 }

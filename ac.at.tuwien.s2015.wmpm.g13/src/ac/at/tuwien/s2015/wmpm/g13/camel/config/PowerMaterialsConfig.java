@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @ComponentScan("ac.at.tuwien.s2015.wmpm.g13")
-@EnableTransactionManagement
 @ImportResource({ "classpath:spring-config.xml" })
 @EnableScheduling
 public class PowerMaterialsConfig extends CamelConfiguration {

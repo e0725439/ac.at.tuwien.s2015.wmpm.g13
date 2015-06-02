@@ -24,15 +24,9 @@ import java.util.List;
  * Created by mattias on 5/13/2015.
  */
 @Component
-public class SupplierOrderItemsBean {
+public class SupplierOrderItemsBean implements Processor {
 
     private static final Logger LOGGER = Logger.getLogger(SupplierOrderItemsBean.class);
-
-    @Handler
-    public void process(Exchange exchange, @Body List<BasicDBObject> basicDBObjects) throws Exception {
-        LOGGER.info("Got a new order for missingOrders, now creating the invoice and sending it back again");
-        exchange.getIn().setBody(getInvoice(parseOrderItems(basicDBObjects)));
-    }
 
     private List<OrderItem> parseOrderItems(List<BasicDBObject> objects) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -62,5 +56,11 @@ public class SupplierOrderItemsBean {
         invoice.setTotalPrice(totalPrice);
         invoice.setOrder(simpleOrder);
         return invoice;
+    }
+
+    @Override
+    public void process(Exchange exchange) throws Exception {
+        LOGGER.info("Got a new order for missingOrders, now creating the invoice and sending it back again");
+        exchange.getIn().setBody(getInvoice(parseOrderItems(exchange.getIn().getBody(List.class))));
     }
 }

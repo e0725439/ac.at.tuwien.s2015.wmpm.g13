@@ -2,15 +2,20 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.OrderItemEnricherBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
+import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
 import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Route for the daily supplier process for providing the missing orderItems
@@ -33,21 +38,11 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-    	
-    	String wireTapRouteMissings = "mongodb:myDb?database="
-				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME) 
-				+ "&collection=" 
-				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_MISSINGORDERITEMS);
-    	
-    	String wireTapRouteStockItems = "mongodb:myDb?database=" 
-				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_NAME) 
-				+ "&collection=" 
-				+ MongoConfigProvider.getString(DBProperty.MONGO_DB_COLLECTION_ITEMSTOCK);
-    	
+
         // Daily SupplierProcess
         from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
-                .to(wireTapRouteMissings + "&operation=findAll")
-//				.wireTap(wireTapRouteMissings + "&operation=remove")
+                    .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=findAll")
+//				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm_company_missingOrderItems&operation=remove")
                 .to("direct:supplier_missingOrderItems");
 
         from("direct:supplier_missingOrderItems")
@@ -71,7 +66,14 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
                 });
 
         from("direct:company_putOrderItems")
-                .enrich(wireTapRouteStockItems + "&operation=findAll", orderItemEnricherBean)
-                .wireTap(wireTapRouteStockItems + "&operation=save");
+                .enrich("mongodb:myDb?database=wmpm_mattias&collection=wmpm.item.stock&operation=findAll", orderItemEnricherBean)
+                .process(new Processor() {
+                    @Override
+                    public void process(Exchange exchange) throws Exception {
+                        LOGGER.info(exchange.getIn().getBody());
+                        ArrayList<OrderItem> list = exchange.getIn().getBody(ArrayList.class);
+                    }
+                })
+                .wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm_item_stock&operation=save");
     }
 }
