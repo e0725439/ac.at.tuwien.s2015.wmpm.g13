@@ -1,4 +1,4 @@
-package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
+package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 
 import org.apache.camel.Predicate;
@@ -11,16 +11,16 @@ import ac.at.tuwien.s2015.wmpm.g13.beans.BusinessConfirmationEmailBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.ConfirmationEmailBean;
 
 @Component
-public class EmailRouteBuilder extends RouteBuilder {
+public class EmailRoute extends RouteBuilder {
 
-    private static final Logger LOGGER = Logger.getLogger(EmailRouteBuilder.class);
+    private static final Logger LOGGER = Logger.getLogger(EmailRoute.class);
 
     private ConfirmationEmailBean confirmationEmailBean;
     
     private BusinessConfirmationEmailBean businessConfirmationEmailBean;
 
     @Autowired
-    public EmailRouteBuilder(ConfirmationEmailBean confirmationEmailBean, BusinessConfirmationEmailBean businessConfirmationEmailBean) {
+    public EmailRoute(ConfirmationEmailBean confirmationEmailBean, BusinessConfirmationEmailBean businessConfirmationEmailBean) {
         this.confirmationEmailBean = confirmationEmailBean;
         this.businessConfirmationEmailBean = businessConfirmationEmailBean;
     }

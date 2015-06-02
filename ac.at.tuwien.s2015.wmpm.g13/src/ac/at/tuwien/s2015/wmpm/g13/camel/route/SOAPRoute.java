@@ -1,4 +1,4 @@
-package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
+package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -16,7 +16,7 @@ public class SOAPRoute extends RouteBuilder {
     private BusinessOrderProcessBean businessOrderProcessBean;
 
     // CXF webservice using code first approach
-    private String uri = "cxf:http://localhost:8282/businessorder?serviceClass=ac.at.tuwien.s2015.wmpm.g13.services.soap.BusinessOrderService";
+    private String uri = "cxf:http://{{soap.jetty.host}}:{{soap.jetty.port}}/businessorder?serviceClass=ac.at.tuwien.s2015.wmpm.g13.services.soap.BusinessOrderService";
 
     @Autowired
     public SOAPRoute(BusinessOrderProcessBean businessOrderProcessBean) {

@@ -1,7 +1,8 @@
-package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
+package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.model.rest.RestBindingMode;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -13,20 +14,28 @@ import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 
 @Component
-public class JettyRouteBuilder extends RouteBuilder {
+public class RESTRoute extends RouteBuilder {
 
-	private static final Logger LOGGER = Logger.getLogger(JettyRouteBuilder.class);
+	private static final Logger LOGGER = Logger.getLogger(RESTRoute.class);
 
 	private OrderProcessBean orderProcessBean;
 
 	@Autowired
-	public JettyRouteBuilder(OrderProcessBean orderProcessBean) {
+	public RESTRoute(OrderProcessBean orderProcessBean) {
 		this.orderProcessBean = orderProcessBean;
 	}
 
 	public void configure() {
 		
-		LOGGER.debug("Configuring JettyRouteBuilder...");
+		 LOGGER.debug("Starting Jetty server...");
+		 
+        // define and add the jetty component
+        restConfiguration().component("jetty")
+                .host("{{rest.jetty.host}}")
+                .port("{{rest.jetty.port}}")
+                .bindingMode(RestBindingMode.auto);
+        
+        LOGGER.debug("Jetty server started succesfully.");
 		
 		// DEFINE BEHAVIOR ON JSON SCHEMA PROBLEMS
 		onException(UnrecognizedPropertyException.class).handled(true)

@@ -1,4 +1,4 @@
-package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
+package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import com.mongodb.DBObject;
 public class TestRoute extends RouteBuilder {
 
     private static final Logger LOGGER = Logger
-            .getLogger(JettyRouteBuilder.class);
+            .getLogger(RESTRoute.class);
     private DatabaseProductProcessBean databaseProductProcessBean;
     private DatabaseOrderItemProcessBean databaseOrderItemProcessBean;
 
