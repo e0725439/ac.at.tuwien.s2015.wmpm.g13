@@ -3,19 +3,17 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
 import ac.at.tuwien.s2015.wmpm.g13.beans.OrderItemEnricherBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.DBProperty;
-import ac.at.tuwien.s2015.wmpm.g13.provider.db.MongoConfigProvider;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Route for the daily supplier process for providing the missing orderItems
@@ -40,10 +38,19 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
         // Daily SupplierProcess
-//        from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
-//                    .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=findAll")
-//				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm_company_missingOrderItems&operation=remove")
-//                .to("direct:supplier_missingOrderItems");
+        from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
+                .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.item.missing&operation=findAll")
+                        //.wireTap("direct:company_removeMissingItems")
+                .to("direct:supplier_missingOrderItems")
+                .end();
+
+        from("direct:company_removeMissingItems").process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.missing");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to("mongodb:myDb?database=wmpm_mattias&operation=command");
 
         from("direct:supplier_missingOrderItems")
                 .delay(3000)
