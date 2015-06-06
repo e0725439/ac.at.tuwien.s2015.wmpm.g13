@@ -9,30 +9,29 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
-
+import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
 
 @Component
-public class ConfirmationEmailBean{
+public class BusinessConfirmationEmailBean{
 
     private static final Logger LOGGER = Logger
-            .getLogger(ConfirmationEmailBean.class);
+            .getLogger(BusinessConfirmationEmailBean.class);
 
     @Autowired
     private JavaMailSender mailSender;
-
+    
     @Autowired
-    @Qualifier("confirmationEmail")
+    @Qualifier("businessConfirmationEmail")
     private SimpleMailMessage confirmationMail;
 
     @Handler
-    public void process(@Body SimpleOrder order) throws Exception {
-
-        LOGGER.debug("WILL SEND CONFIRMATION MAIL FOR ORDER: " + order);
+    public void process(@Body BusinessOrder order) throws Exception {
+        
+        LOGGER.debug("WILL SEND BUSINESS CONFIRMATION MAIL FOR ORDER: " + order);
         LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "
                 + order.getCustomer().getEmail());
 
-        this.confirmationMail.setText("We have received an order with the ID "
+        this.confirmationMail.setText("We have received a very important buisness order with the ID "
                 + order.getOrderId());
         this.mailSender.send(this.confirmationMail);
 

@@ -1,4 +1,4 @@
-package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
+package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.FacebookProcessorBean;
 import org.apache.camel.Exchange;
@@ -15,12 +15,12 @@ import java.util.List;
  * Created by mattias on 5/25/2015.
  */
 @Component
-public class DailyFacebookRouteBuilder extends RouteBuilder {
+public class FacebookRoute extends RouteBuilder {
 
     private FacebookProcessorBean facebookProcessorBean;
 
     @Autowired
-    public DailyFacebookRouteBuilder(FacebookProcessorBean facebookProcessorBean) {
+    public FacebookRoute(FacebookProcessorBean facebookProcessorBean) {
         this.facebookProcessorBean = facebookProcessorBean;
     }
 

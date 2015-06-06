@@ -17,7 +17,7 @@ public enum DBProperty {
 	MONGO_DB_COLLECTION_BUSINESSORDER("mongo_db_collection_businessorder"), //
 	MONGO_DB_COLLECTION_LOGGEDORDER("mongo_db_collection_loggedorder"), //
 	MONGO_DB_COLLECTION_ITEMSTOCK("mongo_db_collection_itemstock"), //
-	MONGO_DB_COLLECTION_MISSINGORDERITEMS("mongo_db_collection_missingorderitems"), //
+	MONGO_DB_COLLECTION_PRODUCT("mongo_db_collection_product"), //
 	
 	MONGO_DB_HOST("mongo_db_host"), //
 	MONGO_DB_PORT("mongo_db_port"), //

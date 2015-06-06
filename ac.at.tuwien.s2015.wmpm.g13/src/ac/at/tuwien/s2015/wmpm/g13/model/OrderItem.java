@@ -44,8 +44,8 @@ public class OrderItem {
 	 */
 	
 	public void setQuantity(int quantity) throws DataModelException {
-		
-		if(quantity < 1){
+
+		if (quantity < 1) {
 			throw new DataModelException("OrderItem quantity must be 1 or more.");
 		}
 		

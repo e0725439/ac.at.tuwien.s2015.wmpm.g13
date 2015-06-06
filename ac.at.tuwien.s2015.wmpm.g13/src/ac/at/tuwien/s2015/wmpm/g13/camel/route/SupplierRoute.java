@@ -1,4 +1,4 @@
-package ac.at.tuwien.s2015.wmpm.g13.camel.routebuilder;
+package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.OrderItemEnricherBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
@@ -20,16 +20,16 @@ import java.util.ArrayList;
  * Created by mattias on 5/25/2015.
  */
 @Component
-public class DailySupplierRouteBuilder extends RouteBuilder {
+public class SupplierRoute extends RouteBuilder {
 
     private static final Logger LOGGER = Logger
-            .getLogger(DailySupplierRouteBuilder.class);
+            .getLogger(SupplierRoute.class);
 
     private SupplierOrderItemsBean supplierOrderItemsBean;
     private OrderItemEnricherBean orderItemEnricherBean;
 
     @Autowired
-    public DailySupplierRouteBuilder(SupplierOrderItemsBean supplierOrderItemsBean, OrderItemEnricherBean orderItemEnricherBean) {
+    public SupplierRoute(SupplierOrderItemsBean supplierOrderItemsBean, OrderItemEnricherBean orderItemEnricherBean) {
         this.supplierOrderItemsBean = supplierOrderItemsBean;
         this.orderItemEnricherBean = orderItemEnricherBean;
     }
