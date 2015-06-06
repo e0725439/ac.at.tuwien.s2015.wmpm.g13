@@ -32,6 +32,8 @@ public class TestRoute extends RouteBuilder {
     private DatabaseProductProcessBean databaseProductProcessBean;
     private DatabaseOrderItemProcessBean databaseOrderItemProcessBean;
 
+    private String mongoCommandString = "mongodb:myDb?database={{mongo_db_name}}&operation=command";
+
     @Autowired
     public TestRoute(DatabaseProductProcessBean databaseProductProcessBean, DatabaseOrderItemProcessBean databaseOrderItemProcessBean) {
         this.databaseProductProcessBean = databaseProductProcessBean;
@@ -40,8 +42,8 @@ public class TestRoute extends RouteBuilder {
 
 
     public void configure() {
-    	LOGGER.debug("Configuring TestRoute");
-    	
+        LOGGER.debug("Configuring TestRoute");
+
         rest("/services/rest").get("/test/simpleorder")
                 .produces("application/json").to("direct:generate_restorder");
 
@@ -93,14 +95,14 @@ public class TestRoute extends RouteBuilder {
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
         from("direct:generate_product")
-        	.bean(databaseProductProcessBean)
-            .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
-            .to("direct:orderitem");
-        
+                .bean(databaseProductProcessBean)
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
+                .to("direct:orderitem");
+
         from("direct:orderitem")
-        	.bean(databaseOrderItemProcessBean)
-            .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
-            .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
+                .bean(databaseOrderItemProcessBean)
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
 
         rest("/services/rest").get("/test/dropdb")
@@ -111,14 +113,15 @@ public class TestRoute extends RouteBuilder {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
                 exchange.getIn().setBody(commandBody);
             }
-        }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command")
+        }).to(mongoCommandString)
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
                         DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
                         exchange.getIn().setBody(commandBody);
                     }
-                }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command");
+                })
+                .to(mongoCommandString);
     }
 
 }
