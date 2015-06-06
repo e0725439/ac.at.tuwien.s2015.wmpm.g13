@@ -49,7 +49,7 @@ public class FacebookProcessorBean {
 
         String facebookEndpoint = "facebook://postStatusMessage?"
                 + "message=" + message
-                + "&oAuthAccessToken={{fb.oAuthAccessTokent}}"
+                + "&oAuthAccessToken={{fb.oAuthAccessToken}}"
                 + "&oAuthAppId={{fb.oAuthAppId}}"
                 + "&oAuthAppSecret={{fb.oAuthAppSecret}}";
         exchange.getIn().setHeader("recipient",facebookEndpoint);
