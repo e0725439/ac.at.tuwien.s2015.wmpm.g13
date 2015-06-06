@@ -40,10 +40,10 @@ public class DailySupplierRouteBuilder extends RouteBuilder {
     public void configure() throws Exception {
 
         // Daily SupplierProcess
-        from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
-                    .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=findAll")
+//        from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
+//                    .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.company.missingOrderItems&operation=findAll")
 //				.wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm_company_missingOrderItems&operation=remove")
-                .to("direct:supplier_missingOrderItems");
+//                .to("direct:supplier_missingOrderItems");
 
         from("direct:supplier_missingOrderItems")
                 .delay(3000)

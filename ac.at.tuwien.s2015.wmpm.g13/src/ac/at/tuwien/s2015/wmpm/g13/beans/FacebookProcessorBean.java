@@ -37,16 +37,20 @@ public class FacebookProcessorBean implements Processor{
         }
 
         if(facebookProduct != null) {
-            message = "Special order for our customers, our Product: " + facebookProduct.getName() +
-                    " is now available with a special discount -20%- for " + (facebookProduct.getPrice()*0.8);
-
+//            message = "Special order for our customers, our Product: " + facebookProduct.getName() +
+//                    " is now available with a special discount of 20 percent, with price per product " + (facebookProduct.getPrice() * 0.8);
         }
+//        LOGGER.info(message);
+        message = "camel ist toll";
+        message = message.replaceAll("\n", "");
+        message = message.replaceAll(" ", "%20");
+        message = message.replaceAll("\t", "    ");
 
         String facebookEndpoint = "facebook://postStatusMessage?"
-                + "message="+ message
-                + "&oAuthAccessToken={{FBAuthAccessToken}}"
-                + "&oAuthAppId={{FBAuthAppId}}"
-                + "&oAuthAppSecret={{FBAuthAppSecret}}";
+                + "message=" + message
+                + "&oAuthAccessToken=CAAWhOkadpHwBANi5xo6uTFXmT9vWZCdXhulntEajppgkKxuuT9gKhJqtsUtpOLYc8gbVybXUhBvrIUypXIBoKz3o61YlTJNypOkHiCgsl8tPmgSa2QVjjlt2yywRYU23JZAgIzwEQb2fBHLqjGHnQRw1CUP3awZChunzC01DAOTKkKTRibA"
+                + "&oAuthAppId=1584646548464764"
+                + "&oAuthAppSecret=17d315a227338f4b08b3e2c3aa305ee9";
         exchange.getIn().setHeader("recipient",facebookEndpoint);
     }
 

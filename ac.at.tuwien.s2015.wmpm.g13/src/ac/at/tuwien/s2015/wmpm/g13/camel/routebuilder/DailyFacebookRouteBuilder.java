@@ -29,7 +29,7 @@ public class DailyFacebookRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Daily FacebookProcess
-        from("quartz2://facebookTimer/cron=0/10+*+*+*+*+?").routeId("cronFacebookProcess")
+        from("quartz2://facebookTimer/cron=*+1+*+*+*+?").routeId("cronFacebookProcess")
                 .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.item.stock&operation=findAll")
                 .process(facebookProcessorBean)
                 .recipientList(header("recipient"))
