@@ -5,6 +5,7 @@ import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import org.apache.camel.Exchange;
+import org.apache.camel.Handler;
 import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
 import org.springframework.core.annotation.Order;
@@ -18,11 +19,11 @@ import java.util.List;
  * Created by josef on 6/2/2015.
  */
 @Component
-public class FacebookProcessorBean implements Processor{
+public class FacebookProcessorBean {
 
     private static final Logger LOGGER = Logger.getLogger(FacebookProcessorBean.class);
 
-    @Override
+    @Handler
     public void process(Exchange exchange) throws Exception {
         List<OrderItem> orderItems = parseOrderItems(exchange.getIn().getBody(List.class));
         Product facebookProduct = null;
@@ -48,9 +49,9 @@ public class FacebookProcessorBean implements Processor{
 
         String facebookEndpoint = "facebook://postStatusMessage?"
                 + "message=" + message
-                + "&oAuthAccessToken=CAAWhOkadpHwBANi5xo6uTFXmT9vWZCdXhulntEajppgkKxuuT9gKhJqtsUtpOLYc8gbVybXUhBvrIUypXIBoKz3o61YlTJNypOkHiCgsl8tPmgSa2QVjjlt2yywRYU23JZAgIzwEQb2fBHLqjGHnQRw1CUP3awZChunzC01DAOTKkKTRibA"
-                + "&oAuthAppId=1584646548464764"
-                + "&oAuthAppSecret=17d315a227338f4b08b3e2c3aa305ee9";
+                + "&oAuthAccessToken={{fb.oAuthAccessTokent}}"
+                + "&oAuthAppId={{fb.oAuthAppId}}"
+                + "&oAuthAppSecret={{fb.oAuthAppSecret}}";
         exchange.getIn().setHeader("recipient",facebookEndpoint);
     }
 

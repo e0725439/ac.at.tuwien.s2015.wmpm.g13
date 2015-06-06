@@ -17,8 +17,6 @@ import java.util.List;
 @Component
 public class DailyFacebookRouteBuilder extends RouteBuilder {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(DailyFacebookRouteBuilder.class);
     private FacebookProcessorBean facebookProcessorBean;
 
     @Autowired
@@ -29,9 +27,9 @@ public class DailyFacebookRouteBuilder extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Daily FacebookProcess
-        from("quartz2://facebookTimer/cron=*+1+*+*+*+?").routeId("cronFacebookProcess")
+        from("quartz2://facebookTimer?trigger.repeatCount=1").routeId("cronFacebookProcess")
                 .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.item.stock&operation=findAll")
-                .process(facebookProcessorBean)
+                .bean(facebookProcessorBean)
                 .recipientList(header("recipient"))
                 .log("Special Order now sent to facebook wall");
     }
