@@ -39,7 +39,7 @@ public class SupplierRoute extends RouteBuilder {
 
         // Daily SupplierProcess
         from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
-                .to("mongodb:myDb?database=wmpm_mattias&collection=wmpm.item.missing&operation=findAll")
+                .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemsmissing}}&operation=findAll")
                         //.wireTap("direct:company_removeMissingItems")
                 .to("direct:supplier_missingOrderItems")
                 .end();
@@ -47,10 +47,10 @@ public class SupplierRoute extends RouteBuilder {
         from("direct:company_removeMissingItems").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
-                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.missing");
+                DBObject commandBody = new BasicDBObject("drop", "{{mongo_db_collection_itemsmissing}}");
                 exchange.getIn().setBody(commandBody);
             }
-        }).to("mongodb:myDb?database=wmpm_mattias&operation=command");
+        }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command");
 
         from("direct:supplier_missingOrderItems")
                 .delay(3000)
@@ -73,7 +73,7 @@ public class SupplierRoute extends RouteBuilder {
                 });
 
         from("direct:company_putOrderItems")
-                .enrich("mongodb:myDb?database=wmpm_mattias&collection=wmpm.item.stock&operation=findAll", orderItemEnricherBean)
+                .enrich("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=findAll", orderItemEnricherBean)
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
@@ -81,6 +81,6 @@ public class SupplierRoute extends RouteBuilder {
                         ArrayList<OrderItem> list = exchange.getIn().getBody(ArrayList.class);
                     }
                 })
-                .wireTap("mongodb:myDb?database=wmpm_mattias&collection=wmpm_item_stock&operation=save");
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=save");
     }
 }

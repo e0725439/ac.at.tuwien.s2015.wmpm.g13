@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
-import org.apache.camel.Processor;
 import org.apache.log4j.Logger;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,9 +17,9 @@ import java.util.List;
  * Created by josef on 6/2/2015.
  */
 @Component
-public class FacebookProcessorBean {
+public class FacebookBean {
 
-    private static final Logger LOGGER = Logger.getLogger(FacebookProcessorBean.class);
+    private static final Logger LOGGER = Logger.getLogger(FacebookBean.class);
 
     @Handler
     public void process(Exchange exchange) throws Exception {
