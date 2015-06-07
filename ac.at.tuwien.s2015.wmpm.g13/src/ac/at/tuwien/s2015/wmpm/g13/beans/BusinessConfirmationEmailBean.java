@@ -26,7 +26,7 @@ public class BusinessConfirmationEmailBean{
 
     @Handler
     public void process(@Body BusinessOrder order) throws Exception {
-        
+        System.err.println("Sending business order confirmation mail.");
         LOGGER.debug("WILL SEND BUSINESS CONFIRMATION MAIL FOR ORDER: " + order);
         LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "
                 + order.getCustomer().getEmail());

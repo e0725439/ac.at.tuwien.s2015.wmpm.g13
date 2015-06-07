@@ -29,8 +29,10 @@ public class SOAPRoute extends RouteBuilder {
 
         from("direct:businessorder_soap")
         	.bean(businessOrderProcessBean)
-            .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
-            .inOnly("seda:confirmation-email.queue");
+        	.wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedorder}}&operation=insert")
+            .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
+            .inOnly("seda:confirmation-email.queue")
+            .end();
     }
 
 }

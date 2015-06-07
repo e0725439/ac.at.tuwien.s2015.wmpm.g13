@@ -17,10 +17,10 @@ public class BusinessOrder {
 
 	private String orderId;
 
-	// the person (either natural or legal) who receives the order
+	// the person who receives the order
 	private LegalPerson customer;
 
-	// the person (either natural or legal) who sends the order
+	// the person who sends the order
 	private LegalPerson supplier;
 
 	// date when the order is received
