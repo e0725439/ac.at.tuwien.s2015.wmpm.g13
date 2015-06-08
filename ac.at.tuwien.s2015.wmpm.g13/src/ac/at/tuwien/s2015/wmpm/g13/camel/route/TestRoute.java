@@ -1,10 +1,14 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
+import ac.at.tuwien.s2015.wmpm.g13.model.Product;
+import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
+import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
+import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
@@ -13,16 +17,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
-import ac.at.tuwien.s2015.wmpm.g13.model.Product;
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
-import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
-import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 @Component
 public class TestRoute extends RouteBuilder {

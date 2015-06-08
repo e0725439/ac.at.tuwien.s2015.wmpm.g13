@@ -1,15 +1,14 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
 import org.apache.camel.Body;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
-
 
 @Component
-public class BusinessOrderProcessBean{
+public class BusinessOrderProcessBean {
 
     private static final Logger LOGGER = Logger.getLogger(BusinessOrderProcessBean.class);
 

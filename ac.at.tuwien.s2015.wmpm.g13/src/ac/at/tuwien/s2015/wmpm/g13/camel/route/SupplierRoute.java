@@ -2,13 +2,11 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.MissingOrderItemBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,8 +33,7 @@ public class SupplierRoute extends RouteBuilder {
         from("quartz2://supplierTimer?trigger.repeatCount=0").routeId("cronSupplierProcess")
                 .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemmissing}}&operation=findAll")
                 .wireTap("direct:company_removeMissingItems")
-                .to("direct:supplier_missingOrderItems")
-                .end();
+                .to("direct:supplier_missingOrderItems");
 
         from("direct:company_removeMissingItems").process(new Processor() {
             @Override

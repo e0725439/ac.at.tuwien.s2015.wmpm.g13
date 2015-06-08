@@ -1,10 +1,9 @@
 /**
  * Copyright (c) 2015. All rights reserved.
- * 
+ * <p/>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS".
  * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
- * 
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
@@ -12,40 +11,40 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
 
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Invoice {
 
-	private SimpleOrder order;
+    private SimpleOrder order;
 
-	private double totalPrice;
+    private double totalPrice;
 
-	private Date creationDate;
+    private Date creationDate;
 
-	public Invoice() {
-		// empty constructor
-	}
-	
-	public SimpleOrder getOrder() {
-		return order;
-	}
+    public Invoice() {
+        // empty constructor
+    }
 
-	public void setOrder(SimpleOrder order) {
-		this.order = order;
-	}
+    public SimpleOrder getOrder() {
+        return order;
+    }
 
-	public double getTotalPrice() {
-		return totalPrice;
-	}
+    public void setOrder(SimpleOrder order) {
+        this.order = order;
+    }
 
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+    public double getTotalPrice() {
+        return totalPrice;
+    }
 
-	public Date getCreationDate() {
-		return creationDate;
-	}
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }

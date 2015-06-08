@@ -1,21 +1,19 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-
+import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.Product;
+import java.util.ArrayList;
 
 
 /**
  * Created by e1025735 on 21.05.15.
  */
 @Component
-public class DatabaseProductProcessBean{
+public class DatabaseProductProcessBean {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
     public DatabaseProductProcessBean() {
@@ -23,9 +21,9 @@ public class DatabaseProductProcessBean{
 
     @Handler
     public void process(Exchange exchange) throws Exception {
-    	
-    	LOGGER.debug("Processing DatabaseProductProcessBean");
-    	
+
+        LOGGER.debug("Processing DatabaseProductProcessBean");
+
         ArrayList<Product> products = new ArrayList<>();
         Product product1 = new Product("1", "Hammer", 4.99);
         Product product2 = new Product("2", "Schraubenzieher Set 6 teilig ", 19.99);

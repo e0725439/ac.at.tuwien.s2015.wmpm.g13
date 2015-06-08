@@ -7,7 +7,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -22,11 +21,11 @@ import java.util.List;
 public class FacebookBean {
 
     private static final Logger LOGGER = Logger.getLogger(FacebookBean.class);
-    @Value("${facebook_token}")
+    @Value("${facebook.token}")
     private String token;
-    @Value("${facebook_id}")
+    @Value("${facebook.id}")
     private String id;
-    @Value("${facebook_secret}")
+    @Value("${facebook.secret}")
     private String secret;
 
     @Handler
@@ -36,17 +35,17 @@ public class FacebookBean {
         int quantity = 0;
         String message = "No special order this week available";
 
-        for(OrderItem orderItem : orderItems) {
-            if(orderItem.getQuantity() > quantity) {
+        for (OrderItem orderItem : orderItems) {
+            if (orderItem.getQuantity() > quantity) {
                 facebookProduct = orderItem.getProduct();
                 quantity = orderItem.getQuantity();
             }
         }
 
-        if(facebookProduct != null) {
+        if (facebookProduct != null) {
             message = "Special order for our customers, our Product: " + facebookProduct.get("name")
                     + " is now available with a special discount of 20 percent, with price per product "
-                    + String.format("%.2f", (double)facebookProduct.get("price") * 0.8);
+                    + String.format("%.2f", (double) facebookProduct.get("price") * 0.8);
         }
 
         String facebookEndpoint = "facebook://postStatusMessage?"
@@ -54,7 +53,7 @@ public class FacebookBean {
                 + "&oAuthAccessToken=" + token
                 + "&oAuthAppId=" + id
                 + "&oAuthAppSecret=" + secret;
-        exchange.getIn().setHeader("recipient",facebookEndpoint);
+        exchange.getIn().setHeader("recipient", facebookEndpoint);
     }
 
     private List<OrderItem> parseOrderItems(List<BasicDBObject> objects) {

@@ -2,7 +2,6 @@ package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
@@ -16,7 +15,7 @@ import java.util.List;
  * Created by e1025735 on 21.05.15.
  */
 @Component
-public class DatabaseOrderItemProcessBean{
+public class DatabaseOrderItemProcessBean {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
     public DatabaseOrderItemProcessBean() {

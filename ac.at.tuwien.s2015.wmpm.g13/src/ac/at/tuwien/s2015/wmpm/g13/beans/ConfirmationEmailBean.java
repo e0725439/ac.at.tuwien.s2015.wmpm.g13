@@ -1,5 +1,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import org.apache.camel.Body;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
@@ -9,11 +10,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
-
 
 @Component
-public class ConfirmationEmailBean{
+public class ConfirmationEmailBean {
 
     private static final Logger LOGGER = Logger
             .getLogger(ConfirmationEmailBean.class);
@@ -27,7 +26,7 @@ public class ConfirmationEmailBean{
 
     @Handler
     public void process(@Body SimpleOrder order) throws Exception {
-    	System.err.println("Sending business order confirmation mail.");
+        System.err.println("Sending business order confirmation mail.");
         LOGGER.debug("WILL SEND CONFIRMATION MAIL FOR ORDER: " + order);
         LOGGER.debug("SENDING CONFIRMATION EMAIL TO: "
                 + order.getCustomer().getEmail());

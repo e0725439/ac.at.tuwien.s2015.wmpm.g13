@@ -1,12 +1,11 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
+import ac.at.tuwien.s2015.wmpm.g13.beans.BusinessOrderProcessBean;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import ac.at.tuwien.s2015.wmpm.g13.beans.BusinessOrderProcessBean;
 
 @Component
 public class SOAPRoute extends RouteBuilder {
@@ -28,11 +27,11 @@ public class SOAPRoute extends RouteBuilder {
         from(uri).setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201)).to("direct:businessorder_soap");
 
         from("direct:businessorder_soap")
-        	.bean(businessOrderProcessBean)
-        	.wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedorder}}&operation=insert")
-            .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
-            .inOnly("seda:confirmation-email.queue")
-            .end();
+                .bean(businessOrderProcessBean)
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedorder}}&operation=insert")
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
+                .inOnly("seda:confirmation-email.queue")
+                .end();
     }
 
 }
