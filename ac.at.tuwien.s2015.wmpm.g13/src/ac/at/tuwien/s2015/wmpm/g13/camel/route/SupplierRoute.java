@@ -1,8 +1,7 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
-import ac.at.tuwien.s2015.wmpm.g13.beans.OrderItemEnricherBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.MissingOrderItemBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
-import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -13,8 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 /**
  * Route for the daily supplier process for providing the missing orderItems
  * Created by mattias on 5/25/2015.
@@ -22,23 +19,20 @@ import java.util.ArrayList;
 @Component
 public class SupplierRoute extends RouteBuilder {
 
-    private static final Logger LOGGER = Logger
-            .getLogger(SupplierRoute.class);
-
     private SupplierOrderItemsBean supplierOrderItemsBean;
-    private OrderItemEnricherBean orderItemEnricherBean;
+    private MissingOrderItemBean missingOrderItemBean;
 
     @Autowired
-    public SupplierRoute(SupplierOrderItemsBean supplierOrderItemsBean, OrderItemEnricherBean orderItemEnricherBean) {
+    public SupplierRoute(SupplierOrderItemsBean supplierOrderItemsBean, MissingOrderItemBean missingOrderItemBean) {
         this.supplierOrderItemsBean = supplierOrderItemsBean;
-        this.orderItemEnricherBean = orderItemEnricherBean;
+        this.missingOrderItemBean = missingOrderItemBean;
     }
 
     @Override
     public void configure() throws Exception {
 
         // Daily SupplierProcess
-        from("quartz2://supplierTimer/cron=*+1+*+*+*+?").routeId("cronSupplierProcess")
+        from("quartz2://supplierTimer?trigger.repeatCount=1").routeId("cronSupplierProcess")
                 .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemsmissing}}&operation=findAll")
                         //.wireTap("direct:company_removeMissingItems")
                 .to("direct:supplier_missingOrderItems")
@@ -55,7 +49,7 @@ public class SupplierRoute extends RouteBuilder {
         from("direct:supplier_missingOrderItems")
                 .delay(3000)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-                .process(supplierOrderItemsBean)
+                .bean(supplierOrderItemsBean)
                 .to("direct:company_receiveMissingSimpleOrder");
 
         from("direct:company_receiveMissingSimpleOrder")
@@ -65,22 +59,10 @@ public class SupplierRoute extends RouteBuilder {
                 .end();
 
         from("direct:supplier_receiveInvoice")
-                .process(new Processor() {
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        LOGGER.info("Supplier got the paid invoice, done with the action");
-                    }
-                });
+                .log("Supplier got the paid invoice, done with the action");
 
         from("direct:company_putOrderItems")
-                .enrich("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=findAll", orderItemEnricherBean)
-                .process(new Processor() {
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        LOGGER.info(exchange.getIn().getBody());
-                        ArrayList<OrderItem> list = exchange.getIn().getBody(ArrayList.class);
-                    }
-                })
-                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=save");
+                .bean(missingOrderItemBean)
+                .log("Refreshed the inventory of our company");
     }
 }

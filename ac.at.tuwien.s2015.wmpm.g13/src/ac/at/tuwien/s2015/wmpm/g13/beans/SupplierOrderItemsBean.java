@@ -58,7 +58,7 @@ public class SupplierOrderItemsBean implements Processor {
         return invoice;
     }
 
-    @Override
+    @Handler
     public void process(Exchange exchange) throws Exception {
         LOGGER.info("Got a new order for missingOrders, now creating the invoice and sending it back again");
         exchange.getIn().setBody(getInvoice(parseOrderItems(exchange.getIn().getBody(List.class))));
