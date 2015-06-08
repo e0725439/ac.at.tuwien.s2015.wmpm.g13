@@ -1,20 +1,24 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.config;
 
-import com.mongodb.Mongo;
+import java.net.UnknownHostException;
+import java.util.Properties;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.spring.SpringCamelContext;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import java.net.UnknownHostException;
-import java.util.Properties;
+import com.mongodb.Mongo;
 
 @Configuration
 @ComponentScan("ac.at.tuwien.s2015.wmpm.g13")
@@ -36,7 +40,8 @@ public class PowerMaterialsConfig extends CamelConfiguration {
 
     }
 
-    @Bean
+	@SuppressWarnings("deprecation")
+	@Bean
     public Mongo myDb(@Value("${mongo_db_user_name}") String username, @Value("${mongo_db_user_password}") String password,
                       @Value("${mongo_db_name}") String database, @Value("${mongo_db_host}") String host, @Value("${mongo_db_port}") int port) {
         Mongo mongo = null;
@@ -73,36 +78,16 @@ public class PowerMaterialsConfig extends CamelConfiguration {
         javaMailProperties.put("mail.smtp.quitwait", false);
         javaMailProperties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         javaMailProperties.put("mail.smtp.socketFactory.fallback", false);
-        javaMailProperties.put("mail.debug", true);
+        javaMailProperties.put("mail.debug", false);
         mailSender.setJavaMailProperties(javaMailProperties);
 
         return mailSender;
-    }
-
-    @Bean
-    public SimpleMailMessage confirmationEmail(@Value("${mail.server.user.name}") String to, @Value("${mail.server.user.name}") String from,
-                                               @Value("${mail.subject.confirmation}") String subject) {
-        return getSimpleMailMessage(to, from, subject);
-    }
-
-    @Bean
-    public SimpleMailMessage businessConfirmationEmail(@Value("${mail.server.user.name}") String to, @Value("${mail.from.business}") String from,
-                                                       @Value("${mail.subject.confirmation.business}") String subject) {
-        return getSimpleMailMessage(to, from, subject);
     }
 
     //To resolve ${} in @Value
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    private SimpleMailMessage getSimpleMailMessage(String to, String from, String subject) {
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setTo(to);
-        simpleMailMessage.setFrom(from);
-        simpleMailMessage.setSubject(subject);
-        return simpleMailMessage;
     }
 
 }

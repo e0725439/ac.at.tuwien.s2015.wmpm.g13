@@ -54,9 +54,7 @@ public class RESTRoute extends RouteBuilder {
         from("direct:order_put")
                 .bean(orderProcessBean)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedorder}}&operation=insert")
-				.wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_simpleorder}}&operation=insert")
-                .inOnly("seda:confirmation-email.queue")
+                .to("seda:confirmation-email.queue")
                 .end();
     }
 }

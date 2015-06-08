@@ -1,8 +1,11 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+import com.mongodb.util.JSON;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
@@ -37,7 +40,8 @@ public class FacebookBean {
 
         for (OrderItem orderItem : orderItems) {
             if (orderItem.getQuantity() > quantity) {
-                facebookProduct = orderItem.getProduct();
+            	String objectAsJson = (new ObjectMapper()).writeValueAsString(orderItem.getProduct());
+                facebookProduct =  (BasicDBObject) JSON.parse(objectAsJson);
                 quantity = orderItem.getQuantity();
             }
         }

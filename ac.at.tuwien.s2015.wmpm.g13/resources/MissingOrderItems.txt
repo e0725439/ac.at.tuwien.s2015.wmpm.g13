@@ -1,1 +1,0 @@
-[{"product":{"productId":"1","name":"Hammer","price":10},"quantity":2},{"product":{"productId":"2","name":"Schraubendreher","price":5},"quantity":5}]

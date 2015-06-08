@@ -7,16 +7,11 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.mongodb.BasicDBObject;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class Product extends BasicDBObject {
+public class Product {
 
     private String productId;
-
     private String name;
-
     private double price;
 
     public Product() {

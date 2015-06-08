@@ -2,14 +2,14 @@
   "orderId": "5464564",
   "customer": {
     "personId": "123",
-    "email": "max.muster@mail.com",
+    "email": "powermaterials2015@gmail.com",
     "address": "Street 23, Vienna 1050, Austria",
     "firstname": "Max",
     "lastname": "Mustermann"
   },
   "supplier": {
     "personId": "999",
-    "email": "company@company.com",
+    "email": "powermaterials2015@gmail.com",
     "address": "Street 33, Linz 4040, Austria",
     "name": "mycompany",
     "registrationNumber": "UAT123213",
