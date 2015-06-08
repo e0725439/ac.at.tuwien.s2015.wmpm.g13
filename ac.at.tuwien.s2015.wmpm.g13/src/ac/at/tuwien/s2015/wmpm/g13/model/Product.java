@@ -8,68 +8,49 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.mongodb.BasicDBObject;
 
-public class Product {
+@JsonIgnoreProperties(ignoreUnknown=true)
+public class Product extends BasicDBObject{
 
 	private String productId;
 
 	private String name;
 
-	private BigDecimal price;
+	private double price;
 
 	public Product() {
 		// default constructor
 	}
 
-	public Product(String productId, String name, BigDecimal price) {
+	public Product(String productId, String name, double price) {
 		this.productId = productId;
 		this.name = name;
 		this.price = price;
 	}
 
-	/**
-	 * @return the productId
-	 */
 	public String getProductId() {
 		return productId;
 	}
 
-	/**
-	 * @param productId
-	 *            the productId to set
-	 */
 	public void setProductId(String productId) {
 		this.productId = productId;
 	}
 
-	/**
-	 * @return the name
-	 */
 	public String getName() {
 		return name;
 	}
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @return the price
-	 */
-	public BigDecimal getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
-	/**
-	 * @param price
-	 *            the price to set
-	 */
-	public void setPrice(BigDecimal price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 

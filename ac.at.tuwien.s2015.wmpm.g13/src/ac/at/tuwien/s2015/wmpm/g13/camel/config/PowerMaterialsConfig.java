@@ -6,12 +6,12 @@ import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @ComponentScan("ac.at.tuwien.s2015.wmpm.g13")
-@EnableTransactionManagement
 @ImportResource({ "classpath:spring-config.xml" })
+@EnableScheduling
 public class PowerMaterialsConfig extends CamelConfiguration {
 
 	@Override

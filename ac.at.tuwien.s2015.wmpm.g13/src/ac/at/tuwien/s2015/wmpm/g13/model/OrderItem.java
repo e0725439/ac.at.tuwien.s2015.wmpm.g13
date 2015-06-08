@@ -8,10 +8,12 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class OrderItem {
 
 	private Product product;
-
 	private int quantity;
 
 	public OrderItem() {
@@ -23,24 +25,14 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
-	/**
-	 * @return the product
-	 */
 	public Product getProduct() {
 		return product;
 	}
 
-	/**
-	 * @param product
-	 *            the product to set
-	 */
 	public void setProduct(Product product) {
 		this.product = product;
 	}
 
-	/**
-	 * @return the quantity
-	 */
 	public int getQuantity() {
 		return quantity;
 	}
@@ -50,6 +42,7 @@ public class OrderItem {
 	 *            the quantity to set
 	 * @throws DataModelException 
 	 */
+	
 	public void setQuantity(int quantity) throws DataModelException {
 
 		if (quantity < 1) {
@@ -59,12 +52,8 @@ public class OrderItem {
 		this.quantity = quantity;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 		return "OrderItem [product=" + product + ", quantity=" + quantity + "]";
 	}
-	
 }

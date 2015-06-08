@@ -8,65 +8,44 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Invoice {
 
 	private SimpleOrder order;
 
-	private BigDecimal totalPrice;
+	private double totalPrice;
 
-	// the date the invoice was issued on
 	private Date creationDate;
 
 	public Invoice() {
 		// empty constructor
 	}
 	
-	/**
-	 * @return the order
-	 */
 	public SimpleOrder getOrder() {
 		return order;
 	}
 
-	/**
-	 * @param order
-	 *            the order to set
-	 */
 	public void setOrder(SimpleOrder order) {
 		this.order = order;
 	}
 
-	/**
-	 * @return the totalPrice
-	 */
-	public BigDecimal getTotalPrice() {
+	public double getTotalPrice() {
 		return totalPrice;
 	}
 
-	/**
-	 * @param totalPrice
-	 *            the totalPrice to set
-	 */
-	public void setTotalPrice(BigDecimal totalPrice) {
+	public void setTotalPrice(double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
 
-	/**
-	 * @return the creationDate
-	 */
 	public Date getCreationDate() {
 		return creationDate;
 	}
 
-	/**
-	 * @param creationDate
-	 *            the creationDate to set
-	 */
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
-
 }

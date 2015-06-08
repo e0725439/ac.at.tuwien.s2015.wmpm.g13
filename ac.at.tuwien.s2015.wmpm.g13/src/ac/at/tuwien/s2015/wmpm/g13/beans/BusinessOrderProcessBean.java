@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
 
+
 @Component
 public class BusinessOrderProcessBean{
 

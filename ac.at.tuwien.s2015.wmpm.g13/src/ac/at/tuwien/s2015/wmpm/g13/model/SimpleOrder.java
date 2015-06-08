@@ -13,24 +13,20 @@ import java.util.List;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
+import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
 
 public class SimpleOrder {
 
 	private String orderId;
 
-	// the person who receives the order
-	private NaturalPerson customer;
-
-	// the person who sends the order
-	private LegalPerson supplier;
-
-	// date when the order is received
 	private Date orderDate;
 
-	// date when the order is send to the customer
 	private Date sendDate;
+	    
+	private NaturalPerson customer;
 
-	// list of order items: i.e. product and product quantity
+	private LegalPerson  supplier;
+	
 	private List<OrderItem> orderItems;
 
 	public SimpleOrder() {
@@ -45,41 +41,10 @@ public class SimpleOrder {
 	}
 
 	/**
-	 * @param orderId
-	 *            the orderId to set
+	 * @param orderId the orderId to set
 	 */
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
-	}
-
-	/**
-	 * @return the customer
-	 */
-	public NaturalPerson getCustomer() {
-		return customer;
-	}
-
-	/**
-	 * @param customer
-	 *            the customer to set
-	 */
-	public void setCustomer(NaturalPerson customer) {
-		this.customer = customer;
-	}
-
-	/**
-	 * @return the supplier
-	 */
-	public LegalPerson getSupplier() {
-		return supplier;
-	}
-
-	/**
-	 * @param supplier
-	 *            the supplier to set
-	 */
-	public void setSupplier(LegalPerson supplier) {
-		this.supplier = supplier;
 	}
 
 	/**
@@ -90,8 +55,7 @@ public class SimpleOrder {
 	}
 
 	/**
-	 * @param orderDate
-	 *            the orderDate to set
+	 * @param orderDate the orderDate to set
 	 */
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
@@ -105,11 +69,38 @@ public class SimpleOrder {
 	}
 
 	/**
-	 * @param sendDate
-	 *            the sendDate to set
+	 * @param sendDate the sendDate to set
 	 */
 	public void setSendDate(Date sendDate) {
 		this.sendDate = sendDate;
+	}
+
+	/**
+	 * @return the customer
+	 */
+	public Person getCustomer() {
+		return customer;
+	}
+
+	/**
+	 * @param customer the customer to set
+	 */
+	public void setCustomer(NaturalPerson customer) {
+		this.customer = customer;
+	}
+
+	/**
+	 * @return the supplier
+	 */
+	public Person getSupplier() {
+		return supplier;
+	}
+
+	/**
+	 * @param supplier the supplier to set
+	 */
+	public void setSupplier(LegalPerson supplier) {
+		this.supplier = supplier;
 	}
 
 	/**
@@ -120,8 +111,7 @@ public class SimpleOrder {
 	}
 
 	/**
-	 * @param orderItems
-	 *            the orderItems to set
+	 * @param orderItems the orderItems to set
 	 */
 	public void setOrderItems(List<OrderItem> orderItems) {
 		this.orderItems = orderItems;
@@ -132,10 +122,9 @@ public class SimpleOrder {
 	 */
 	@Override
 	public String toString() {
-		return "Order [orderId=" + orderId + ", customer=" + customer
-				+ ", supplier=" + supplier + ", orderDate=" + orderDate
-				+ ", sendDate=" + sendDate + ", orderItems=" + orderItems + "]";
+		return "SimpleOrder [orderId=" + orderId + ", orderDate=" + orderDate
+				+ ", sendDate=" + sendDate + ", customer=" + customer
+				+ ", supplier=" + supplier + ", orderItems=" + orderItems + "]";
 	}
 	
-
 }
