@@ -35,13 +35,12 @@ public class OrderConfirmationRoute extends RouteBuilder {
     		.when(isSimpleOrder)
             	.bean(confirmationEmailBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedorder}}&operation=insert")
-				.to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_simpleorder}}&operation=insert")
+				.inOnly("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_simpleorder}}&operation=insert")
 				.endChoice()
             .otherwise()
             	.bean(businessConfirmationEmailBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedorder}}&operation=insert")
-                // NOTE: .to() is not working here, nobody knows why - conversion error
-                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
+                .inOnly("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_businessorder}}&operation=insert")
                 .endChoice();
 
     }

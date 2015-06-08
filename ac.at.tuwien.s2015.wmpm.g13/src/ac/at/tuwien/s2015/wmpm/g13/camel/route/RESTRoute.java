@@ -54,7 +54,7 @@ public class RESTRoute extends RouteBuilder {
         from("direct:order_put")
                 .bean(orderProcessBean)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
-                .to("seda:confirmation-email.queue")
+                .inOnly("seda:confirmation-email.queue")
                 .end();
     }
 }
