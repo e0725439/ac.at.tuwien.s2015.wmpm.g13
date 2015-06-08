@@ -9,16 +9,24 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.PropertyPlaceholderHelper;
 
 /**
  * Created by mattias on 5/22/2015.
  */
 @Component
+@PropertySource("classpath:mongo_db.properties")
 public class MissingOrderItemBean {
 
     private static final Logger LOGGER = Logger.getLogger(MissingOrderItemBean.class);
     private Mongo myDb;
+    @Value("${mongo_db_name}")
+    private String database;
+    @Value("${mongo_db_collection_itemstock}")
+    private String stockCollection;
 
     @Autowired
     public MissingOrderItemBean(Mongo myDb) {
@@ -29,7 +37,7 @@ public class MissingOrderItemBean {
     public void process(Exchange exchange) {
         Invoice invoice = exchange.getIn().getBody(Invoice.class);    // vom supplier
         LOGGER.info("Refreshing orderItems from database and supplier, costs in total: " + invoice.getTotalPrice());
-        DBCollection dbCollection = myDb.getDB("wmpm_mattias").getCollection("wmpm.item.stock");
+        DBCollection dbCollection = myDb.getDB(database).getCollection(stockCollection);
         for (OrderItem orderItem : invoice.getOrder().getOrderItems()) {
             BasicDBObject searchQuery = new BasicDBObject();
             searchQuery.put("product.name", orderItem.getProduct().getName());

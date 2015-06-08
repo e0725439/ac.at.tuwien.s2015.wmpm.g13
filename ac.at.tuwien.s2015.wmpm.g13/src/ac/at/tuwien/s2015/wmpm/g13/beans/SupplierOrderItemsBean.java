@@ -4,11 +4,8 @@ import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.TestData;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
-
-import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.Processor;
@@ -42,19 +39,22 @@ public class SupplierOrderItemsBean implements Processor {
     }
 
     private Invoice getInvoice(List<OrderItem> orderItems) {
-        double totalPrice = 0;
-        Invoice invoice = new Invoice();
-        invoice.setCreationDate(new Date());
-        SimpleOrder simpleOrder = new SimpleOrder();
-        simpleOrder.setCustomer(TestData.getCustomer());
-        simpleOrder.setSendDate(new Date());
-        simpleOrder.setOrderItems(orderItems);
-        simpleOrder.setSupplier(TestData.getSupplier());
-        for (OrderItem orderItem : orderItems) {
-            totalPrice += orderItem.getProduct().getPrice()*orderItem.getQuantity();
+        Invoice invoice = null;
+        if (orderItems.size() > 0) {
+            double totalPrice = 0;
+            invoice = new Invoice();
+            invoice.setCreationDate(new Date());
+            SimpleOrder simpleOrder = new SimpleOrder();
+            simpleOrder.setCustomer(TestData.getCustomer());
+            simpleOrder.setSendDate(new Date());
+            simpleOrder.setOrderItems(orderItems);
+            simpleOrder.setSupplier(TestData.getSupplier());
+            for (OrderItem orderItem : orderItems) {
+                totalPrice += orderItem.getProduct().getPrice() * orderItem.getQuantity();
+            }
+            invoice.setTotalPrice(totalPrice);
+            invoice.setOrder(simpleOrder);
         }
-        invoice.setTotalPrice(totalPrice);
-        invoice.setOrder(simpleOrder);
         return invoice;
     }
 

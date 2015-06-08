@@ -22,8 +22,8 @@ public class FacebookRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         // Daily FacebookProcess
-        from("quartz2://facebookTimer?trigger.repeatCount=1").routeId("cronFacebookProcess")
-                .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemsstock}}&operation=findAll")
+        from("quartz2://facebookTimer?trigger.repeatCount=0").routeId("cronFacebookProcess")
+                .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=findAll")
                 .bean(facebookBean)
                 .recipientList(header("recipient"))
                 .log("Special Order now sent to facebook wall");

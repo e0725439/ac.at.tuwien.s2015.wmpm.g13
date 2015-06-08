@@ -32,16 +32,16 @@ public class SupplierRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         // Daily SupplierProcess
-        from("quartz2://supplierTimer?trigger.repeatCount=1").routeId("cronSupplierProcess")
-                .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemsmissing}}&operation=findAll")
-                        //.wireTap("direct:company_removeMissingItems")
+        from("quartz2://supplierTimer?trigger.repeatCount=0").routeId("cronSupplierProcess")
+                .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemmissing}}&operation=findAll")
+                .wireTap("direct:company_removeMissingItems")
                 .to("direct:supplier_missingOrderItems")
                 .end();
 
         from("direct:company_removeMissingItems").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
-                DBObject commandBody = new BasicDBObject("drop", "{{mongo_db_collection_itemsmissing}}");
+                DBObject commandBody = new BasicDBObject("drop", "{{mongo_db_collection_itemmissing}}");
                 exchange.getIn().setBody(commandBody);
             }
         }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command");
