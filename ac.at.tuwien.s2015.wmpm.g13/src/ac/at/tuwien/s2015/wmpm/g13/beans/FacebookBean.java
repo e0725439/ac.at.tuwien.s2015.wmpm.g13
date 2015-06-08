@@ -1,15 +1,17 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
-import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +22,17 @@ import java.util.List;
 public class FacebookBean {
 
     private static final Logger LOGGER = Logger.getLogger(FacebookBean.class);
+    @Value("${facebook_token}")
+    private String token;
+    @Value("${facebook_id}")
+    private String id;
+    @Value("${facebook_secret}")
+    private String secret;
 
     @Handler
     public void process(Exchange exchange) throws Exception {
         List<OrderItem> orderItems = parseOrderItems(exchange.getIn().getBody(List.class));
-        Product facebookProduct = null;
+        BasicDBObject facebookProduct = null;
         int quantity = 0;
         String message = "No special order this week available";
 
@@ -36,20 +44,16 @@ public class FacebookBean {
         }
 
         if(facebookProduct != null) {
-//            message = "Special order for our customers, our Product: " + facebookProduct.getName() +
-//                    " is now available with a special discount of 20 percent, with price per product " + (facebookProduct.getPrice() * 0.8);
+            message = "Special order for our customers, our Product: " + facebookProduct.get("name")
+                    + " is now available with a special discount of 20 percent, with price per product "
+                    + String.format("%.2f", (double)facebookProduct.get("price") * 0.8);
         }
-//        LOGGER.info(message);
-        message = "camel ist toll";
-        message = message.replaceAll("\n", "");
-        message = message.replaceAll(" ", "%20");
-        message = message.replaceAll("\t", "    ");
 
         String facebookEndpoint = "facebook://postStatusMessage?"
-                + "message=" + message
-                + "&oAuthAccessToken={{fb.oAuthAccessToken}}"
-                + "&oAuthAppId={{fb.oAuthAppId}}"
-                + "&oAuthAppSecret={{fb.oAuthAppSecret}}";
+                + "message=" + URLEncoder.encode(message, "UTF-8")
+                + "&oAuthAccessToken=" + token
+                + "&oAuthAppId=" + id
+                + "&oAuthAppSecret=" + secret;
         exchange.getIn().setHeader("recipient",facebookEndpoint);
     }
 

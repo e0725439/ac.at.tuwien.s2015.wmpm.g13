@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.PropertyPlaceholderHelper;
 
 /**
  * Created by mattias on 5/22/2015.
  */
 @Component
-@PropertySource("classpath:mongo_db.properties")
 public class MissingOrderItemBean {
 
     private static final Logger LOGGER = Logger.getLogger(MissingOrderItemBean.class);

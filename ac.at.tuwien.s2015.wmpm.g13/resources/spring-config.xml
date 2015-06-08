@@ -18,6 +18,7 @@
             <list>
                 <value>mongo_db.properties</value>
                 <value>mail.properties</value>
+                <value>facebook.properties</value>
             </list>
         </property>
     </bean>
@@ -28,7 +29,6 @@
               <value>classpath:mongo_db.properties</value>
               <value>classpath:mail.properties</value>
               <value>classpath:webservices.properties</value>
-              <value>classpath:facebook.properties</value>
           </list>
     	</property>
 	</bean>
