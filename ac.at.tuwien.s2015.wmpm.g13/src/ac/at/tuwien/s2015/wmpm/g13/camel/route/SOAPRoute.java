@@ -31,7 +31,7 @@ public class SOAPRoute extends RouteBuilder {
     		.bean(businessOrderProcessBean)
     		.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
     		.inOnly("seda:confirmation-email.queue")
-    		.end();
+    		.to("direct:order_processing");
     }
 
 }
