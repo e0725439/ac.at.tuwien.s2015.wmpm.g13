@@ -107,18 +107,46 @@ public class TestRoute extends RouteBuilder {
         from("direct:dropdb").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
-                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.order.simple");
                 exchange.getIn().setBody(commandBody);
             }
         }).to(mongoCommandString)
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {
-                        DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
+                        DBObject commandBody = new BasicDBObject("drop", "wmpm.order.business");
                         exchange.getIn().setBody(commandBody);
                     }
                 })
-                .to(mongoCommandString);
+                .to(mongoCommandString)
+                .process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.order.logged");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString)
+        .process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString)
+        .process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.missing");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString)
+        .process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString);
     }
 
 }
