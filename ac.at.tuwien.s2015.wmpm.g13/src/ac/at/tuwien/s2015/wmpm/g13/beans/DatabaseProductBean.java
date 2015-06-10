@@ -13,10 +13,10 @@ import java.util.ArrayList;
  * Created by e1025735 on 21.05.15.
  */
 @Component
-public class DatabaseProductProcessBean {
+public class DatabaseProductBean {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
-    public DatabaseProductProcessBean() {
+    public DatabaseProductBean() {
     }
 
     @Handler
@@ -26,7 +26,7 @@ public class DatabaseProductProcessBean {
 
         ArrayList<Product> products = new ArrayList<>();
         Product product1 = new Product("1", "Hammer", 4.99);
-        Product product2 = new Product("2", "Schraubenzieher Set 6 teilig ", 19.99);
+        Product product2 = new Product("2", "Schraubenzieher", 19.99);
         Product product3 = new Product("3", "Holzaxt", 13.99);
         Product product4 = new Product("4", "Werkzeugkoffer", 48.99);
         Product product5 = new Product("5", "Arbeitsguertel", 16.99);
