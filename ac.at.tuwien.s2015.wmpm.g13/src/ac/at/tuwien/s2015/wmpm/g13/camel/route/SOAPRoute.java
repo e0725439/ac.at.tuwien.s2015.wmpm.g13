@@ -28,8 +28,9 @@ public class SOAPRoute extends RouteBuilder {
         	.to("direct:businessorder_soap");
 
         from("direct:businessorder_soap")
-    		.bean(businessOrderProcessBean)
-    		.setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
+    		//.bean(businessOrderProcessBean)
+    		.log("Business Order was received: "+ body())
+            .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
     		.inOnly("seda:confirmation-email.queue")
     		.to("direct:order_processing");
     }

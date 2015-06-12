@@ -7,6 +7,7 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.order.Order;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.Date;
@@ -14,7 +15,7 @@ import java.util.Date;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Invoice {
 
-    private SimpleOrder order;
+    private Order order;
 
     private double totalPrice;
 
@@ -24,11 +25,11 @@ public class Invoice {
         // empty constructor
     }
 
-    public SimpleOrder getOrder() {
+    public Order getOrder() {
         return order;
     }
 
-    public void setOrder(SimpleOrder order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 

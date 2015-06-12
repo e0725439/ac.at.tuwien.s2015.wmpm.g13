@@ -7,7 +7,9 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Product {
 
     private String productId;

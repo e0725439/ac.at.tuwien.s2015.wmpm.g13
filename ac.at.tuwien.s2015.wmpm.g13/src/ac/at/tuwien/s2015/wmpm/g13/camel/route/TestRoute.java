@@ -2,9 +2,9 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 import com.mongodb.BasicDBObject;

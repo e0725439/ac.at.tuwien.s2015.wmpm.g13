@@ -2,7 +2,7 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
 import ac.at.tuwien.s2015.wmpm.g13.beans.OrderProcessBean;
 import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
@@ -52,7 +52,8 @@ public class RESTRoute extends RouteBuilder {
                 .to("direct:order_put");
 
         from("direct:order_put")
-                .bean(orderProcessBean)
+                //.bean(orderProcessBean)
+                .log("Received message with order: "+ body())
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
                 .inOnly("seda:confirmation-email.queue")
                 .to("direct:order_processing");

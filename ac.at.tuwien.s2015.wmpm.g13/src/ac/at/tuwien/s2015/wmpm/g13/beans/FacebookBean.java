@@ -1,6 +1,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;

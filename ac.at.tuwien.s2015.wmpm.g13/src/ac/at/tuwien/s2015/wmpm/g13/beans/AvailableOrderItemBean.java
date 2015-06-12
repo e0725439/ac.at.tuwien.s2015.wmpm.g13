@@ -1,12 +1,12 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
-import ac.at.tuwien.s2015.wmpm.g13.model.Order;
-import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
-import ac.at.tuwien.s2015.wmpm.g13.model.Shippment;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.Order;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
+import ac.at.tuwien.s2015.wmpm.g13.model.Shipment;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;
+import org.apache.camel.Body;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
@@ -37,65 +37,81 @@ public class AvailableOrderItemBean {
     }
 
     @Handler
-    public void process(Exchange exchange) {
-        Order order = exchange.getIn().getBody(Order.class);
+    public void process(@Body Order order) {
         LOGGER.info("Checking Availability for Order: " + order.getOrderId());
         DBCollection dbCollectionStock = myDb.getDB(database).getCollection(stockCollection);
         DBCollection dbCollectionShipping = myDb.getDB(database).getCollection(shippingCollection);
         DBCollection dbCollectionMissing = myDb.getDB(database).getCollection(missingCollection);
         //Create Shipping
-        Shippment shippment = new Shippment();
-        shippment.setOrderId(order.getOrderId());
+        Shipment shipment = new Shipment();
+        shipment.setOrderId(order.getOrderId());
         List<OrderItem> shippingItemList = new ArrayList<>();
+        shipment.setOrderItems(shippingItemList);
+        LOGGER.info("Checking stock for each order item");
         for (OrderItem orderItem : order.getOrderItems()) {
             BasicDBObject searchQuery = new BasicDBObject();
             searchQuery.put("product.name", orderItem.getProduct().getName());
-            BasicDBObject dbObject = (BasicDBObject) dbCollectionStock.findOne(searchQuery);
-            if (dbObject != null) {
-                if((int) dbObject.get("quantity") >= orderItem.getQuantity()){
-                    dbObject.put("quantity", ((int) dbObject.get("quantity")) - orderItem.getQuantity());
+            BasicDBObject itemStock = (BasicDBObject) dbCollectionStock.findOne(searchQuery);
+            BasicDBObject itemMissing = (BasicDBObject) dbCollectionMissing.findOne(searchQuery);
+            //Is OrderItem in Stock Collection?
+            if (itemStock != null) {
+                //Is enough Quantity available?
+                LOGGER.info(orderItem.getProduct().getName() + " found in stock");
+                if ((int) itemStock.get("quantity") >= orderItem.getQuantity()) {
+                    LOGGER.info(orderItem.getProduct().getName() + " enough stock found");
+                    //Add Item to Shipment
+                    shippingItemList.add(new OrderItem(orderItem.getProduct(), orderItem.getQuantity()));
+                    //Reduce Stock
+                    itemStock.put("quantity", ((int) itemStock.get("quantity")) - orderItem.getQuantity());
                     BasicDBObject update = new BasicDBObject();
-                    update.put("$set", dbObject);
+                    update.put("$set", itemStock);
                     dbCollectionStock.update(searchQuery, update);
-                    shippingItemList.add(new OrderItem(orderItem.getProduct(),orderItem.getQuantity()));
-                }else {
-                    shippingItemList.add(new OrderItem(orderItem.getProduct(),(int) dbObject.get("quantity")));
-
-                    dbObject.put("quantity", 0);
+                } else {
+                    LOGGER.info(orderItem.getProduct().getName() + " not enough stock available, add it to missing stock");
+                    //Add Item to Shipment
+                    shippingItemList.add(new OrderItem(orderItem.getProduct(), (int) itemStock.get("quantity")));
+                    //Add Item to missing Stock
+                    if (itemMissing != null) {
+                        itemMissing.put("quantity", orderItem.getQuantity());
+                        BasicDBObject update = new BasicDBObject();
+                        update.put("$set", itemMissing);
+                        dbCollectionMissing.update(searchQuery, update);
+                    } else {
+                        BasicDBObject insert = new BasicDBObject();
+                        insert.put("product", orderItem.getProduct().getName());
+                        insert.put("quantity", orderItem.getQuantity());
+                        dbCollectionMissing.insert(insert);
+                    }
+                    //Reduce Stock
+                    itemStock.put("quantity", 0);
                     BasicDBObject update = new BasicDBObject();
-                    update.put("$set", dbObject);
+                    update.put("$set", itemStock);
                     dbCollectionStock.update(searchQuery, update);
                 }
             } else {
-                LOGGER.info(orderItem.getProduct().getName() + " not found in stock, creating it");
-                BasicDBObject newBasicDBObject = new BasicDBObject();
-                newBasicDBObject.put("product", orderItem.getProduct());
-                newBasicDBObject.put("quantity", orderItem.getQuantity());
-                dbCollection.insert(newBasicDBObject);
+                //Add Item to Shipment
+                shippingItemList.add(new OrderItem(orderItem.getProduct(), 0));
+                //Add item to missing stock
+                LOGGER.info(orderItem.getProduct().getName() + " not found in stock, add it to missing stock");
+                if (itemMissing != null) {
+                    itemMissing.put("quantity", orderItem.getQuantity());
+                    BasicDBObject update = new BasicDBObject();
+                    update.put("$set", itemMissing);
+                    dbCollectionMissing.update(searchQuery, update);
+                } else {
+                    BasicDBObject insert = new BasicDBObject();
+                    insert.put("product", orderItem.getProduct());
+                    insert.put("quantity", orderItem.getQuantity());
+                    dbCollectionMissing.insert(insert);
+                }
             }
         }
-
-        Invoice invoice = exchange.getIn().getBody(Invoice.class);    // vom supplier
-        LOGGER.info("Refreshing orderItems from database and supplier, costs in total: " + invoice.getTotalPrice());
-        DBCollection dbCollection = myDb.getDB(database).getCollection(stockCollection);
-        for (OrderItem orderItem : invoice.getOrder().getOrderItems()) {
-            BasicDBObject searchQuery = new BasicDBObject();
-            searchQuery.put("product.name", orderItem.getProduct().getName());
-            BasicDBObject dbObject = (BasicDBObject) dbCollection.findOne(searchQuery);
-            if (dbObject != null) {
-                LOGGER.info("Updating amount in stock of: " + orderItem.getProduct().getName());
-                BasicDBObject updatedBasicDBObject = new BasicDBObject();
-                updatedBasicDBObject.put("quantity", ((int) dbObject.get("quantity")) + orderItem.getQuantity());
-                BasicDBObject update = new BasicDBObject();
-                update.put("$set", updatedBasicDBObject);
-                dbCollection.update(searchQuery, update);
-            } else {
-                LOGGER.info(orderItem.getProduct().getName() + " not found in stock, creating it");
-                BasicDBObject newBasicDBObject = new BasicDBObject();
-                newBasicDBObject.put("product", orderItem.getProduct());
-                newBasicDBObject.put("quantity", orderItem.getQuantity());
-                dbCollection.insert(newBasicDBObject);
-            }
-        }
+        LOGGER.info("Stocks checked inserting shipment");
+        BasicDBObject insert = new BasicDBObject();
+        insert.put("orderId", shipment.getOrderId());
+        insert.put("orderItems", shippingItemList);
+        insert.put("ready", false);
+        insert.put("paid", false);
+        dbCollectionShipping.insert(insert);
     }
 }

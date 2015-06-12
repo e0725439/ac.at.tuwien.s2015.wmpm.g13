@@ -5,22 +5,23 @@
  * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
  */
-package ac.at.tuwien.s2015.wmpm.g13.model;
+package ac.at.tuwien.s2015.wmpm.g13.model.order;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
-import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
 
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.List;
 
+@XmlType(name="Order")
 public abstract class Order {
 
-    private String orderId;
-    private Date orderDate;
-    private Date sendDate;
-    private List<OrderItem> orderItems;
-    private LegalPerson supplier;
+    protected String orderId;
+    protected Date orderDate;
+    protected Date sendDate;
+    protected List<OrderItem> orderItems;
+    protected LegalPerson supplier;
 
     public Order() {
         // empty constructor

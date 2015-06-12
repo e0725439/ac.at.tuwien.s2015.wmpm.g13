@@ -7,13 +7,11 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
-import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 
-import java.util.Date;
 import java.util.List;
 
-public class Shippment {
+public class Shipment {
 
     private String shippmentId;
     private String orderId;
@@ -21,11 +19,11 @@ public class Shippment {
     private Boolean ready;
     private Boolean paid;
 
-    public Shippment() {
+    public Shipment() {
         // empty constructor
     }
 
-    public Shippment(String shippmentId, String orderId, List<OrderItem> orderItems, Boolean ready, Boolean paid) {
+    public Shipment(String shippmentId, String orderId, List<OrderItem> orderItems, Boolean ready, Boolean paid) {
         this.shippmentId = shippmentId;
         this.orderId = orderId;
         this.orderItems = orderItems;
@@ -91,7 +89,7 @@ public class Shippment {
 
     @Override
     public String toString() {
-        return "Shippment{" +
+        return "Shipment{" +
                 "shippmentId='" + shippmentId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", orderItems=" + orderItems +

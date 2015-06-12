@@ -1,6 +1,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import org.apache.camel.Body;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
