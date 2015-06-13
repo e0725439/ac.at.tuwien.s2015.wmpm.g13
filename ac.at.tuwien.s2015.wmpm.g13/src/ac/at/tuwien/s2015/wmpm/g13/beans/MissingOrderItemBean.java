@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Created by mattias on 5/22/2015.
+ * Fixed by Patric on 6/13/2015.
  */
 @Component
 public class MissingOrderItemBean {
@@ -48,8 +49,12 @@ public class MissingOrderItemBean {
                 dbCollection.update(searchQuery, update);
             } else {
                 LOGGER.info(orderItem.getProduct().getName() + " not found in stock, creating it");
+                BasicDBObject product = new BasicDBObject();
+                product.put("productId", orderItem.getProduct().getProductId());
+                product.put("name", orderItem.getProduct().getName());
+                product.put("price", orderItem.getProduct().getPrice());
                 BasicDBObject newBasicDBObject = new BasicDBObject();
-                newBasicDBObject.put("product", orderItem.getProduct());
+                newBasicDBObject.put("product", product);
                 newBasicDBObject.put("quantity", orderItem.getQuantity());
                 dbCollection.insert(newBasicDBObject);
             }
