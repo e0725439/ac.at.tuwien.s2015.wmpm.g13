@@ -15,10 +15,10 @@ import java.util.List;
  * Created by e1025735 on 21.05.15.
  */
 @Component
-public class DatabaseOrderItemProcessBean {
+public class DatabaseOrderItemBean {
     private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
 
-    public DatabaseOrderItemProcessBean() {
+    public DatabaseOrderItemBean() {
     }
 
     @Handler
@@ -28,7 +28,7 @@ public class DatabaseOrderItemProcessBean {
         List<Product> products = exchange.getIn().getBody(List.class);
 
         OrderItem orderItem1 = new OrderItem(products.get(0), 1);
-        OrderItem orderItem2 = new OrderItem(products.get(1), 3);
+        //orderItem 2 is missing on purpose, because it gets in the missing Item collection
         OrderItem orderItem3 = new OrderItem(products.get(2), 2);
         OrderItem orderItem4 = new OrderItem(products.get(3), 5);
         OrderItem orderItem5 = new OrderItem(products.get(4), 7);
@@ -45,7 +45,6 @@ public class DatabaseOrderItemProcessBean {
         OrderItem orderItem16 = new OrderItem(products.get(15), 3);
 
         orderItems.add(orderItem1);
-        orderItems.add(orderItem2);
         orderItems.add(orderItem3);
         orderItems.add(orderItem4);
         orderItems.add(orderItem5);

@@ -1,7 +1,8 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
-import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemProcessBean;
-import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseMissingItemBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductBean;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
@@ -26,15 +27,17 @@ public class TestRoute extends RouteBuilder {
 
     private static final Logger LOGGER = Logger
             .getLogger(RESTRoute.class);
-    private DatabaseProductProcessBean databaseProductProcessBean;
-    private DatabaseOrderItemProcessBean databaseOrderItemProcessBean;
+    private DatabaseProductBean dbProductBean;
+    private DatabaseOrderItemBean dbOrderItemBean;
+    private DatabaseMissingItemBean dbMissingItemBean;
 
     private String mongoCommandString = "mongodb:myDb?database={{mongo_db_name}}&operation=command";
 
     @Autowired
-    public TestRoute(DatabaseProductProcessBean databaseProductProcessBean, DatabaseOrderItemProcessBean databaseOrderItemProcessBean) {
-        this.databaseProductProcessBean = databaseProductProcessBean;
-        this.databaseOrderItemProcessBean = databaseOrderItemProcessBean;
+    public TestRoute(DatabaseProductBean dbProductBean, DatabaseOrderItemBean dbOrderItemBean, DatabaseMissingItemBean dbMissingItemBean) {
+        this.dbProductBean = dbProductBean;
+        this.dbOrderItemBean = dbOrderItemBean;
+        this.dbMissingItemBean = dbMissingItemBean;
     }
 
 
@@ -73,7 +76,7 @@ public class TestRoute extends RouteBuilder {
                 item.setProduct(product);
                 item.setQuantity(2);
 
-                List<OrderItem> orderItems = new ArrayList<OrderItem>();
+                List<OrderItem> orderItems = new ArrayList<>();
                 orderItems.add(item);
 
                 order.setCustomer(naturalPerson);
@@ -92,13 +95,16 @@ public class TestRoute extends RouteBuilder {
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
         from("direct:generate_product")
-                .bean(databaseProductProcessBean)
+                .bean(dbProductBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
                 .to("direct:orderitem");
-
         from("direct:orderitem")
-                .bean(databaseOrderItemProcessBean)
+                .bean(dbOrderItemBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
+                .to("direct:missingitem");
+        from("direct:missingitem")
+                .bean(dbMissingItemBean)
+                .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemmissing}}&operation=insert")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
 
 
@@ -107,18 +113,40 @@ public class TestRoute extends RouteBuilder {
         from("direct:dropdb").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.order.simple");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.order.business");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.order.logged");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.item.stock");
                 exchange.getIn().setBody(commandBody);
             }
-        }).to(mongoCommandString)
-                .process(new Processor() {
-                    @Override
-                    public void process(Exchange exchange) throws Exception {
-                        DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
-                        exchange.getIn().setBody(commandBody);
-                    }
-                })
-                .to(mongoCommandString);
+        }).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.item.missing");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString);
     }
 
 }

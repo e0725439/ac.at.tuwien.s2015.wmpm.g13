@@ -21,8 +21,18 @@ public class Invoice {
 
     private Date creationDate;
 
+    private boolean payed;
+
     public Invoice() {
         // empty constructor
+    }
+
+    public boolean getPayed() {
+        return this.payed;
+    }
+
+    public void setPayed(boolean payed) {
+        this.payed = payed;
     }
 
     public Order getOrder() {
