@@ -1,7 +1,7 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;

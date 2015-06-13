@@ -1,8 +1,8 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.Shipment;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.Order;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
-import ac.at.tuwien.s2015.wmpm.g13.model.Shipment;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.Mongo;

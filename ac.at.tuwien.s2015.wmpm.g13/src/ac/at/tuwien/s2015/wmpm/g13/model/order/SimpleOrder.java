@@ -8,7 +8,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.model.order;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
-import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
 
 import javax.xml.bind.annotation.XmlType;
 
