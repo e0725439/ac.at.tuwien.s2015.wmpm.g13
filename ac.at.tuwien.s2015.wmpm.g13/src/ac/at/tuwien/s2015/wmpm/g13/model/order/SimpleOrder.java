@@ -17,16 +17,14 @@ public class SimpleOrder extends Order{
 
     private NaturalPerson customer;
 
-
     public SimpleOrder() {
         // empty constructor
     }
 
-
     /**
      * @return the customer
      */
-    public Person getCustomer() {
+    public NaturalPerson getCustomer() {
         return customer;
     }
 

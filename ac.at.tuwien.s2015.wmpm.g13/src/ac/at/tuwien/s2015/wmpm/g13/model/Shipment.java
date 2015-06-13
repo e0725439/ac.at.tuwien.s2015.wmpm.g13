@@ -13,22 +13,20 @@ import java.util.List;
 
 public class Shipment {
 
-    private String shippmentId;
+    private String shipmentId;
     private String orderId;
     private List<OrderItem> orderItems;
-    private Boolean ready;
-    private Boolean paid;
+    private Boolean shipped;
 
     public Shipment() {
         // empty constructor
     }
 
-    public Shipment(String shippmentId, String orderId, List<OrderItem> orderItems, Boolean ready, Boolean paid) {
-        this.shippmentId = shippmentId;
+    public Shipment(String shipmentId, String orderId, List<OrderItem> orderItems, Boolean shipped) {
+        this.shipmentId = shipmentId;
         this.orderId = orderId;
         this.orderItems = orderItems;
-        this.ready = ready;
-        this.paid = paid;
+        this.shipped = shipped;
     }
 
     /**
@@ -59,28 +57,20 @@ public class Shipment {
         this.orderItems = orderItems;
     }
 
-    public String getShippmentId() {
-        return shippmentId;
+    public String getShipmentId() {
+        return shipmentId;
     }
 
-    public void setShippmentId(String shippmentId) {
-        this.shippmentId = shippmentId;
+    public void setShipmentId(String shipmentId) {
+        this.shipmentId = shipmentId;
     }
 
-    public Boolean getReady() {
-        return ready;
+    public Boolean isShipped() {
+        return shipped;
     }
 
-    public void setReady(Boolean ready) {
-        this.ready = ready;
-    }
-
-    public Boolean getPaid() {
-        return paid;
-    }
-
-    public void setPaid(Boolean paid) {
-        this.paid = paid;
+    public void setShipped(Boolean shipped) {
+        this.shipped = shipped;
     }
 
     /* (non-Javadoc)
@@ -90,11 +80,10 @@ public class Shipment {
     @Override
     public String toString() {
         return "Shipment{" +
-                "shippmentId='" + shippmentId + '\'' +
+                "shippmentId='" + shipmentId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", orderItems=" + orderItems +
-                ", ready=" + ready +
-                ", paid=" + paid +
+                ", shipped=" + shipped +
                 '}';
     }
 

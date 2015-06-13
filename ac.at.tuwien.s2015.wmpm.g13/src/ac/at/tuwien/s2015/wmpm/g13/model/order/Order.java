@@ -22,6 +22,7 @@ public abstract class Order {
     protected Date sendDate;
     protected List<OrderItem> orderItems;
     protected LegalPerson supplier;
+    protected Person customer;
 
     public Order() {
         // empty constructor
@@ -95,6 +96,20 @@ public abstract class Order {
      */
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    /**
+     * @return the customer
+     */
+    public Person getCustomer() {
+        return customer;
+    }
+
+    /**
+     * @param customer the customer to set
+     */
+    public void setCustomer(Person customer) {
+        this.customer = customer;
     }
 
     /* (non-Javadoc)
