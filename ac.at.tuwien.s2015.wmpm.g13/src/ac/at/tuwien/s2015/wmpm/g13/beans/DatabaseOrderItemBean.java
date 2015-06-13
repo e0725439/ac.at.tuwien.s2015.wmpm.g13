@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Component
 public class DatabaseOrderItemBean {
-    private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
+    private static final Logger LOGGER = Logger.getLogger(DatabaseOrderItemBean.class);
 
     public DatabaseOrderItemBean() {
     }

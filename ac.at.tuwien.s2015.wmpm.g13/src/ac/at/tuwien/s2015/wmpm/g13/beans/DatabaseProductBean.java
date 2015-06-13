@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 @Component
 public class DatabaseProductBean {
-    private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
+    private static final Logger LOGGER = Logger.getLogger(DatabaseProductBean.class);
 
     public DatabaseProductBean() {
     }

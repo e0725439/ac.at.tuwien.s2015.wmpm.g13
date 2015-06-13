@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 @Component
 public class DatabaseMissingItemBean {
-    private static final Logger LOGGER = Logger.getLogger(OrderProcessBean.class);
+    private static final Logger LOGGER = Logger.getLogger(DatabaseMissingItemBean.class);
 
     public DatabaseMissingItemBean() {
     }
