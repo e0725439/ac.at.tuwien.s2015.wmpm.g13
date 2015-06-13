@@ -5,23 +5,26 @@
  * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
  */
-package ac.at.tuwien.s2015.wmpm.g13.model;
+package ac.at.tuwien.s2015.wmpm.g13.model.order;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
+import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
 
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.List;
 
-public class BusinessOrder {
+@XmlType(name="Order")
+public abstract class Order {
 
-    private String orderId;
-    private Date orderDate;
-    private Date sendDate;
-    private List<OrderItem> orderItems;
-    private LegalPerson customer;
-    private LegalPerson supplier;
+    protected String orderId;
+    protected Date orderDate;
+    protected Date sendDate;
+    protected List<OrderItem> orderItems;
+    protected LegalPerson supplier;
+    protected Person customer;
 
-    public BusinessOrder() {
+    public Order() {
         // empty constructor
     }
 
@@ -68,6 +71,20 @@ public class BusinessOrder {
     }
 
     /**
+     * @return the supplier
+     */
+    public Person getSupplier() {
+        return supplier;
+    }
+
+    /**
+     * @param supplier the supplier to set
+     */
+    public void setSupplier(LegalPerson supplier) {
+        this.supplier = supplier;
+    }
+
+    /**
      * @return the orderItems
      */
     public List<OrderItem> getOrderItems() {
@@ -84,29 +101,15 @@ public class BusinessOrder {
     /**
      * @return the customer
      */
-    public LegalPerson getCustomer() {
+    public Person getCustomer() {
         return customer;
     }
 
     /**
      * @param customer the customer to set
      */
-    public void setCustomer(LegalPerson customer) {
+    public void setCustomer(Person customer) {
         this.customer = customer;
-    }
-
-    /**
-     * @return the supplier
-     */
-    public LegalPerson getSupplier() {
-        return supplier;
-    }
-
-    /**
-     * @param supplier the supplier to set
-     */
-    public void setSupplier(LegalPerson supplier) {
-        this.supplier = supplier;
     }
 
     /* (non-Javadoc)
@@ -114,9 +117,9 @@ public class BusinessOrder {
      */
     @Override
     public String toString() {
-        return "BusinessOrder [orderId=" + orderId + ", orderDate=" + orderDate
-                + ", sendDate=" + sendDate + ", orderItems=" + orderItems
-                + ", customer=" + customer + ", supplier=" + supplier + "]";
+        return "SimpleOrder [orderId=" + orderId + ", orderDate=" + orderDate
+                + ", sendDate=" + sendDate + ", supplier=" + supplier
+                + ", orderItems=" + orderItems + "]";
     }
 
 }

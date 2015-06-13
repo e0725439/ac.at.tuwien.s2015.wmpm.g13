@@ -1,6 +1,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.services.soap;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.BusinessOrder;
 
 import javax.jws.WebService;
 

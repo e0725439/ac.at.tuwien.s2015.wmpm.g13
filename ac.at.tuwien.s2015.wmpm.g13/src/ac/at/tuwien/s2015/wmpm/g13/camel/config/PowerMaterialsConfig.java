@@ -1,24 +1,19 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.config;
 
-import java.net.UnknownHostException;
-import java.util.Properties;
-
+import com.mongodb.Mongo;
 import org.apache.camel.CamelContext;
 import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.spring.SpringCamelContext;
 import org.apache.camel.spring.javaconfig.CamelConfiguration;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-import com.mongodb.Mongo;
+import java.net.UnknownHostException;
+import java.util.Properties;
 
 @Configuration
 @ComponentScan("ac.at.tuwien.s2015.wmpm.g13")

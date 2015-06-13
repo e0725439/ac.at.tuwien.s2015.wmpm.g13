@@ -28,7 +28,7 @@ public class OrderConfirmationRoute extends RouteBuilder {
     public void configure() throws Exception {
         LOGGER.debug("Processing email confirmation.");
 
-        Predicate isSimpleOrder = (Predicate) simple("${in.body.getClass} == 'ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder'");
+        Predicate isSimpleOrder = (Predicate) simple("${in.body.getClass} == 'ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder'");
 
         from("seda:confirmation-email.queue")
     	.choice()	

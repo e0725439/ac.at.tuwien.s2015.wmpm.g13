@@ -55,8 +55,9 @@ public class SupplierRoute extends RouteBuilder {
                 .to("direct:company_putOrderItems")
                 .end();
 
-        from("direct:supplier_receiveInvoice")
-                .log("Supplier got the paid invoice, done with the action");
+        //WTF? Deadlock with CustomerRoute
+        //from("direct:supplier_receiveInvoice")
+        //        .log("Supplier got the paid invoice, done with the action");
 
         from("direct:company_putOrderItems")
                 .bean(missingOrderItemBean)

@@ -3,9 +3,9 @@ package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseMissingItemBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseOrderItemBean;
 import ac.at.tuwien.s2015.wmpm.g13.beans.DatabaseProductBean;
-import ac.at.tuwien.s2015.wmpm.g13.model.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.Product;
-import ac.at.tuwien.s2015.wmpm.g13.model.SimpleOrder;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 import com.mongodb.BasicDBObject;
@@ -144,6 +144,18 @@ public class TestRoute extends RouteBuilder {
             @Override
             public void process(Exchange exchange) throws Exception {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.invoice");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.shipping");
                 exchange.getIn().setBody(commandBody);
             }
         }).to(mongoCommandString);

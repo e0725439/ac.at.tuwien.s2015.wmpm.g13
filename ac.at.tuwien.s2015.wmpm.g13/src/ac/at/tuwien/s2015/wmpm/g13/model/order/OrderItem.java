@@ -5,8 +5,10 @@
  * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
  */
-package ac.at.tuwien.s2015.wmpm.g13.model;
+package ac.at.tuwien.s2015.wmpm.g13.model.order;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
+import ac.at.tuwien.s2015.wmpm.g13.model.Product;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)

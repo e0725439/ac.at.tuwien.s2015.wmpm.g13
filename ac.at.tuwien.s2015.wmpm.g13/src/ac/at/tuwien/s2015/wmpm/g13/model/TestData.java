@@ -1,5 +1,6 @@
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 
