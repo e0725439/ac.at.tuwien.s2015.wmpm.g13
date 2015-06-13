@@ -146,6 +146,18 @@ public class TestRoute extends RouteBuilder {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.product");
                 exchange.getIn().setBody(commandBody);
             }
+        }).to(mongoCommandString).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.invoice");
+                exchange.getIn().setBody(commandBody);
+            }
+        }).to(mongoCommandString).to(mongoCommandString).process(new Processor() {
+            @Override
+            public void process(Exchange exchange) throws Exception {
+                DBObject commandBody = new BasicDBObject("drop", "wmpm.shipping");
+                exchange.getIn().setBody(commandBody);
+            }
         }).to(mongoCommandString);
     }
 
