@@ -1,11 +1,7 @@
 package ac.at.tuwien.s2015.wmpm.g13.camel.route;
 
-import ac.at.tuwien.s2015.wmpm.g13.beans.AvailableOrderItemBean;
-import ac.at.tuwien.s2015.wmpm.g13.beans.SupplierOrderItemsBean;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import org.apache.camel.Exchange;
-import org.apache.camel.Processor;
+import ac.at.tuwien.s2015.wmpm.g13.beans.OrderProcessBean;
+import ac.at.tuwien.s2015.wmpm.g13.beans.ShipmentEmailBean;
 import org.apache.camel.builder.RouteBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -17,21 +13,25 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderRoute extends RouteBuilder {
 
-    private SupplierOrderItemsBean supplierOrderItemsBean;
-    private AvailableOrderItemBean availableOrderItemBean;
+    private OrderProcessBean orderProcessBean;
+    private ShipmentEmailBean shipmentEmailBean;
 
     @Autowired
-    public OrderRoute(SupplierOrderItemsBean supplierOrderItemsBean, AvailableOrderItemBean availableOrderItemBean) {
-        this.supplierOrderItemsBean = supplierOrderItemsBean;
-        this.availableOrderItemBean = availableOrderItemBean;
+    public OrderRoute(OrderProcessBean orderProcessBean, ShipmentEmailBean shipmentEmailBean) {
+        this.shipmentEmailBean = shipmentEmailBean;
+        this.orderProcessBean = orderProcessBean;
     }
 
     @Override
     public void configure() throws Exception {
 
-        from("direct:order_processing").bean(availableOrderItemBean).end();
-        //choice(isready?).whenready(sendShippingmail).otherwise(end);
-
-
+        from("direct:order_processing")
+        .log("Processing order now...")
+        .bean(orderProcessBean)
+        .choice()
+        .when(header("shipped").isEqualTo(true))
+            .bean(shipmentEmailBean)
+        .otherwise()
+            .end();
     }
 }
