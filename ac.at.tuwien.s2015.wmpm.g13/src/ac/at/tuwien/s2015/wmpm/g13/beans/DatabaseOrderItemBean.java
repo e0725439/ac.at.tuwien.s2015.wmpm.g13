@@ -1,14 +1,14 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.Product;
-import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
-import org.apache.camel.Exchange;
-import org.apache.camel.Handler;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.camel.Exchange;
+import org.apache.camel.Handler;
+import org.springframework.stereotype.Component;
+
+import ac.at.tuwien.s2015.wmpm.g13.model.Product;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 
 
 /**
@@ -16,7 +16,6 @@ import java.util.List;
  */
 @Component
 public class DatabaseOrderItemBean {
-    private static final Logger LOGGER = Logger.getLogger(DatabaseOrderItemBean.class);
 
     public DatabaseOrderItemBean() {
     }
@@ -25,7 +24,8 @@ public class DatabaseOrderItemBean {
     public void process(Exchange exchange) throws Exception {
         ArrayList<OrderItem> orderItems = new ArrayList<>();
 
-        List<Product> products = exchange.getIn().getBody(List.class);
+        @SuppressWarnings("unchecked")
+		List<Product> products = exchange.getIn().getBody(List.class);
 
         OrderItem orderItem1 = new OrderItem(products.get(0), 1);
         //orderItem 2 is missing on purpose, because it gets in the missing Item collection

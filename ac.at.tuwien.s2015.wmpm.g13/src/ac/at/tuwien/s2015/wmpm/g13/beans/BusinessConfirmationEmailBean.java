@@ -25,7 +25,6 @@ public class BusinessConfirmationEmailBean {
         LOGGER.debug("Sending confirmation email to: " + order.getCustomer().getEmail());
 
         this.confirmationMail.setTo(order.getCustomer().getEmail());
-        // NOTE: {{}} is not working here - bug in camel?
         this.confirmationMail.setSubject("Confirmation: BusinessOrder received successfully.");
         this.confirmationMail.setText("We have received a very important buisness order with the ID " + order.getOrderId());
         this.mailSender.send(this.confirmationMail);

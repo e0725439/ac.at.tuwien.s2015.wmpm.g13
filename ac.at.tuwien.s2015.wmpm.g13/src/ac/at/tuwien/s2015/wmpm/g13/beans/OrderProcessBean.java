@@ -39,9 +39,11 @@ public class OrderProcessBean {
     @Handler
     public void process(Exchange exchange, @Body Order order) {
         LOGGER.info("Checking availability for Order: " + order.getOrderId());
+        
         DBCollection dbCollectionStock = myDb.getDB(database).getCollection(stockCollection);
         DBCollection dbCollectionShipping = myDb.getDB(database).getCollection(shippingCollection);
         DBCollection dbCollectionMissing = myDb.getDB(database).getCollection(missingCollection);
+        
         //Create Shipping
         Shipment shipment = new Shipment();
         shipment.setOrderId(order.getOrderId());
@@ -49,6 +51,7 @@ public class OrderProcessBean {
         shipment.setOrderItems(shippingItemList);
         shipment.setShipped(true);
         LOGGER.info("Checking stock level for each order item");
+        
         for (OrderItem orderItem : order.getOrderItems()) {
             BasicDBObject searchQuery = new BasicDBObject();
             searchQuery.put("product.name", orderItem.getProduct().getName());

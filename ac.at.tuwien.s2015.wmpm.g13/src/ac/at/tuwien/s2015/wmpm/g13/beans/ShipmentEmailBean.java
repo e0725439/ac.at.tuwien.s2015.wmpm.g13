@@ -1,6 +1,9 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.order.BusinessOrder;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.Order;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
+
 import org.apache.camel.Body;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
@@ -23,9 +26,18 @@ public class ShipmentEmailBean {
     @Handler
     public void process(@Body Order order) throws Exception {
         LOGGER.info("Send shipment mail for order: " + order);
-        LOGGER.debug("Sending shipment email to: " + order.getCustomer().getEmail());
-
-        this.shipmentMail.setTo(order.getCustomer().getEmail());
+        
+        
+        if (order instanceof SimpleOrder) {
+        	SimpleOrder toConfirm = (SimpleOrder) order;
+        	LOGGER.debug("Sending shipment email to: " + toConfirm.getCustomer().getEmail());
+        	this.shipmentMail.setTo(toConfirm.getCustomer().getEmail());
+        } else {
+        	BusinessOrder toConfirm = (BusinessOrder) order;
+        	LOGGER.debug("Sending shipment email to: " + toConfirm.getCustomer().getEmail());
+        	this.shipmentMail.setTo(toConfirm.getCustomer().getEmail());
+        }
+        
         this.shipmentMail.setSubject("Shipping Confirmation: Order successfully shipped");
         this.shipmentMail.setText("We have shipped your order with the ID " + order.getOrderId());
         this.mailSender.send(this.shipmentMail);

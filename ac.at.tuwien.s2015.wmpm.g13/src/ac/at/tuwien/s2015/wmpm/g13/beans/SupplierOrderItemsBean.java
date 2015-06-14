@@ -4,8 +4,10 @@ import ac.at.tuwien.s2015.wmpm.g13.model.Invoice;
 import ac.at.tuwien.s2015.wmpm.g13.model.TestData;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 import ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.camel.Processor;
@@ -17,9 +19,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by mattias on 5/13/2015.
- */
 @Component
 public class SupplierOrderItemsBean implements Processor {
 
@@ -58,7 +57,8 @@ public class SupplierOrderItemsBean implements Processor {
         return invoice;
     }
 
-    @Handler
+    @SuppressWarnings("unchecked")
+	@Handler
     public void process(Exchange exchange) throws Exception {
         LOGGER.info("Got a new order for missingOrders, now creating the invoice and sending it back again");
         exchange.getIn().setBody(getInvoice(parseOrderItems(exchange.getIn().getBody(List.class))));

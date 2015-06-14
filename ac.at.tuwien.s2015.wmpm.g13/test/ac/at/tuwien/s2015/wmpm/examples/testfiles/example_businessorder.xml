@@ -3,57 +3,34 @@
 	<soapenv:Header />
 	<soapenv:Body>
 		<soap:order>
-			<!--Optional: -->
 			<arg0>
-				<!--Optional: -->
-				<customer>
-					<!--Optional: -->
-					<address>Mustergasse 22</address>
-					<!--Optional: -->
-					<email>powermaterials2015@gmail.com</email>
-					<!--Optional: -->
-					<personId>123654</personId>
-					<!--Optional: -->
-					<countryCourt>Vienna</countryCourt>
-					<!--Optional: -->
-					<name>Musterfirma GMBH</name>
-					<!--Optional: -->
-					<registrationNumber>AT123456</registrationNumber>
-				</customer>
-				<!--Optional: -->
-				<orderDate>2014-12-12</orderDate>
-				<!--Optional: -->
 				<orderId>123456</orderId>
-				<!--Zero or more repetitions: -->
+				<sendDate>2015-07-14</sendDate>
+				<orderDate>2015-07-14</orderDate>
+				<customer>
+					<personId>123654</personId>
+					<email>powermaterials2015@gmail.com</email>
+					<address>Mustergasse 22</address>
+					<name>Musterfirma GMBH</name>
+					<registrationNumber>AT123456</registrationNumber>
+					<countryCourt>Vienna</countryCourt>
+				</customer>
+				<supplier>
+					<personId>1234</personId>
+					<email>powermaterials2015@gmail.com</email>
+					<address>Mustergasse 22</address>
+					<name>PowerMaterials GMBH</name>
+					<registrationNumber>AT32165</registrationNumber>
+					<countryCourt>Vienna</countryCourt>
+				</supplier>
 				<orderItems>
-					<!--Optional: -->
 					<product>
-						<!--Optional: -->
 						<name>Hammer</name>
-						<!--Optional: -->
-						<price>10</price>
-						<!--Optional: -->
-						<productId>123456</productId>
+						<price>4.99</price>
+						<productId>1</productId>
 					</product>
 					<quantity>12</quantity>
 				</orderItems>
-				<!--Optional: -->
-				<sendDate>2014-12-12</sendDate>
-				<!--Optional: -->
-				<supplier>
-					<!--Optional: -->
-					<address>Mustergasse 22</address>
-					<!--Optional: -->
-					<email>powermaterials2015@gmail.com</email>
-					<!--Optional: -->
-					<personId>1234</personId>
-					<!--Optional: -->
-					<countryCourt>Vienna</countryCourt>
-					<!--Optional: -->
-					<name>PowerMaterials GMBH</name>
-					<!--Optional: -->
-					<registrationNumber>AT32165</registrationNumber>
-				</supplier>
 			</arg0>
 		</soap:order>
 	</soapenv:Body>

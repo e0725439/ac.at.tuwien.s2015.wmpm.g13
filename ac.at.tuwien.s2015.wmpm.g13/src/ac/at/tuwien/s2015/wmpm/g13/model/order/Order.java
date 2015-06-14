@@ -7,12 +7,12 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model.order;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
-import ac.at.tuwien.s2015.wmpm.g13.model.person.Person;
-
-import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlType;
+
+import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 
 @XmlType(name="Order")
 public abstract class Order {
@@ -22,7 +22,6 @@ public abstract class Order {
     protected Date sendDate;
     protected List<OrderItem> orderItems;
     protected LegalPerson supplier;
-    protected Person customer;
 
     public Order() {
         // empty constructor
@@ -73,7 +72,7 @@ public abstract class Order {
     /**
      * @return the supplier
      */
-    public Person getSupplier() {
+    public LegalPerson getSupplier() {
         return supplier;
     }
 
@@ -96,20 +95,6 @@ public abstract class Order {
      */
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
-    }
-
-    /**
-     * @return the customer
-     */
-    public Person getCustomer() {
-        return customer;
-    }
-
-    /**
-     * @param customer the customer to set
-     */
-    public void setCustomer(Person customer) {
-        this.customer = customer;
     }
 
     /* (non-Javadoc)

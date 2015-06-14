@@ -17,7 +17,7 @@ public class BusinessOrder extends Order{
     private LegalPerson customer;
 
     public BusinessOrder() {
-        // empty constructor
+       super();
     }
 
     /**

@@ -1,9 +1,11 @@
 package ac.at.tuwien.s2015.wmpm.g13.beans;
 
 import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.BasicDBObject;
 import com.mongodb.util.JSON;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.log4j.Logger;
@@ -31,7 +33,8 @@ public class FacebookBean {
 
     @Handler
     public void process(Exchange exchange) throws Exception {
-        List<OrderItem> orderItems = parseOrderItems(exchange.getIn().getBody(List.class));
+        @SuppressWarnings("unchecked")
+		List<OrderItem> orderItems = parseOrderItems(exchange.getIn().getBody(List.class));
         BasicDBObject facebookProduct = null;
         int quantity = 0;
         String message = "No special order this week available";

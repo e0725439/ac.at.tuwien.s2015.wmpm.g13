@@ -5,6 +5,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
+import ac.at.tuwien.s2015.wmpm.g13.model.DataModelException;
+
 @Component
 public class SOAPRoute extends RouteBuilder {
 
@@ -15,6 +17,13 @@ public class SOAPRoute extends RouteBuilder {
 
     public void configure() throws Exception {
         LOGGER.debug("Configuring soap endpoint...");
+        
+        // DEFINE BEHAVIOR ON DATA MODEL PROBLEMS
+        onException(DataModelException.class).handled(true)
+                .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
+                .setHeader(Exchange.CONTENT_TYPE, constant("application/xml"))
+                .setBody().simple("Invalid data values:\n${exception.message}");
+        
         from(uri)
         	.to("direct:businessorder_soap");
 

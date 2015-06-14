@@ -46,6 +46,7 @@ public class RESTRoute extends RouteBuilder {
                 .log("Received REST message with a simple order")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
                 .inOnly("seda:confirmation-email.queue")
-                .to("direct:order_processing");
+                .to("direct:order_processing")
+                .end();
     }
 }

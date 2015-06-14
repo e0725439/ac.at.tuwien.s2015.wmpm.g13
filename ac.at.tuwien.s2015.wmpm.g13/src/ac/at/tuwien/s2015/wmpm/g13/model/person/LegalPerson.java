@@ -7,6 +7,7 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model.person;
 
+
 public class LegalPerson extends Person {
 
     private String name;

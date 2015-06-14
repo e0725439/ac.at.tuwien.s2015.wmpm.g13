@@ -12,7 +12,7 @@ import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlType(name="SimpleOrder")
-public class SimpleOrder extends Order{
+public class SimpleOrder extends Order {
 
     private NaturalPerson customer;
 

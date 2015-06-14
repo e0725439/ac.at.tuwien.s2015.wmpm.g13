@@ -7,6 +7,7 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.model.person;
 
+
 public abstract class Person {
 
     private String personId;
