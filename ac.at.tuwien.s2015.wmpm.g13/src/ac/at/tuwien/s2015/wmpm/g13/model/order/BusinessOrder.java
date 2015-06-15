@@ -11,7 +11,10 @@ import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @XmlType(name="BusinessOrder")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BusinessOrder extends Order{
 
     private LegalPerson customer;

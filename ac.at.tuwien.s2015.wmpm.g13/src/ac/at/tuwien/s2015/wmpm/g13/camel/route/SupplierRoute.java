@@ -32,7 +32,7 @@ public class SupplierRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         // Daily SupplierProcess
-        from("quartz2://supplierTimer?trigger.repeatCount=0").routeId("cronSupplierProcess")
+        from("quartz2://supplierTimer?cron=0/60+*+*+*+*+?").routeId("cronSupplierProcess")
                 .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemmissing}}&operation=findAll")
                 .inOnly("seda:company_removeMissingItems.queue")
                 .to("direct:supplier_missingOrderItems");

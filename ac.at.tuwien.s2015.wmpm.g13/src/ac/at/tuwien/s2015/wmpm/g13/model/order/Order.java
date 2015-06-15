@@ -12,9 +12,12 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import ac.at.tuwien.s2015.wmpm.g13.model.person.LegalPerson;
 
 @XmlType(name="Order")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class Order {
 
     protected String orderId;
