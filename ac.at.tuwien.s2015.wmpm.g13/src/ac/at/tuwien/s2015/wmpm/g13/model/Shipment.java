@@ -11,9 +11,11 @@ import ac.at.tuwien.s2015.wmpm.g13.model.order.OrderItem;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Shipment {
 
-    private String shipmentId;
     private String orderId;
     private List<OrderItem> orderItems;
     private Boolean shipped;
@@ -22,8 +24,7 @@ public class Shipment {
         // empty constructor
     }
 
-    public Shipment(String shipmentId, String orderId, List<OrderItem> orderItems, Boolean shipped) {
-        this.shipmentId = shipmentId;
+    public Shipment(String orderId, List<OrderItem> orderItems, Boolean shipped) {
         this.orderId = orderId;
         this.orderItems = orderItems;
         this.shipped = shipped;
@@ -57,14 +58,6 @@ public class Shipment {
         this.orderItems = orderItems;
     }
 
-    public String getShipmentId() {
-        return shipmentId;
-    }
-
-    public void setShipmentId(String shipmentId) {
-        this.shipmentId = shipmentId;
-    }
-
     public Boolean isShipped() {
         return shipped;
     }
@@ -80,7 +73,6 @@ public class Shipment {
     @Override
     public String toString() {
         return "Shipment{" +
-                "shippmentId='" + shipmentId + '\'' +
                 ", orderId='" + orderId + '\'' +
                 ", orderItems=" + orderItems +
                 ", shipped=" + shipped +

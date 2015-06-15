@@ -52,7 +52,7 @@ public class OrderConfirmationRoute extends RouteBuilder {
         // SHIPMENT CONFIRMATIONS
         from("seda:shipment-email.queue")
         	.bean(shipmentEmailBean)
-        	.wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_loggedshipments}}&operation=insert");
+        	.end();
     }
 
 }

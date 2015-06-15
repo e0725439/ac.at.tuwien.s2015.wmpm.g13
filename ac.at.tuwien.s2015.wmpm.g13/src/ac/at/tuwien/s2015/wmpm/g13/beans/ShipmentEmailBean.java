@@ -27,21 +27,22 @@ public class ShipmentEmailBean {
     public void process(@Body Order order) throws Exception {
         LOGGER.info("Send shipment mail for order: " + order);
         
-        
-        if (order instanceof SimpleOrder) {
-        	SimpleOrder toConfirm = (SimpleOrder) order;
-        	LOGGER.debug("Sending shipment email to: " + toConfirm.getCustomer().getEmail());
-        	this.shipmentMail.setTo(toConfirm.getCustomer().getEmail());
-        } else {
-        	BusinessOrder toConfirm = (BusinessOrder) order;
-        	LOGGER.debug("Sending shipment email to: " + toConfirm.getCustomer().getEmail());
-        	this.shipmentMail.setTo(toConfirm.getCustomer().getEmail());
+        if (order != null) {
+        	if (order instanceof SimpleOrder) {
+        		SimpleOrder toConfirm = (SimpleOrder) order;
+        		LOGGER.debug("Sending shipment email to: " + toConfirm.getCustomer().getEmail());
+        		this.shipmentMail.setTo(toConfirm.getCustomer().getEmail());
+        	} else {
+        		BusinessOrder toConfirm = (BusinessOrder) order;
+        		LOGGER.debug("Sending shipment email to: " + toConfirm.getCustomer().getEmail());
+        		this.shipmentMail.setTo(toConfirm.getCustomer().getEmail());
+        	}
+        	
+        	this.shipmentMail.setSubject("Shipping Confirmation: Order successfully shipped");
+        	this.shipmentMail.setText("We have shipped your order with the ID " + order.getOrderId());
+        	this.mailSender.send(this.shipmentMail);
+        	
+        	LOGGER.info("Shipment email sent");
         }
-        
-        this.shipmentMail.setSubject("Shipping Confirmation: Order successfully shipped");
-        this.shipmentMail.setText("We have shipped your order with the ID " + order.getOrderId());
-        this.mailSender.send(this.shipmentMail);
-
-        LOGGER.info("Shipment email sent");
     }
 }

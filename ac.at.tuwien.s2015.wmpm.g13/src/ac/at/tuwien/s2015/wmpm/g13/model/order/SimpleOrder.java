@@ -11,7 +11,10 @@ import ac.at.tuwien.s2015.wmpm.g13.model.person.NaturalPerson;
 
 import javax.xml.bind.annotation.XmlType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @XmlType(name="SimpleOrder")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SimpleOrder extends Order {
 
     private NaturalPerson customer;
