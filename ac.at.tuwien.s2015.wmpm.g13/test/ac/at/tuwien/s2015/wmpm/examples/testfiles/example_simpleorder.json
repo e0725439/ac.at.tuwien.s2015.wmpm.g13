@@ -1,0 +1,30 @@
+{
+  "orderId": "5464564",
+  "customer": {
+    "personId": "123",
+    "email": "powermaterials2015@gmail.com",
+    "address": "Street 23, Vienna 1050, Austria",
+    "firstname": "Max",
+    "lastname": "Mustermann"
+  },
+  "supplier": {
+    "personId": "999",
+    "email": "powermaterials2015@gmail.com",
+    "address": "Street 33, Linz 4040, Austria",
+    "name": "mycompany",
+    "registrationNumber": "UAT123213",
+    "countryCourt": "Linz"
+  },
+  "orderDate": "2001-07-04T12:08:56.235-0700",
+  "sendDate": "2001-07-04T12:08:56.235-0700",
+  "orderItems": [
+    {
+      "product": {
+        "productId": "1",
+        "name": "Hammer",
+        "price": 4.99
+      },
+      "quantity": 2
+    }
+  ]
+}

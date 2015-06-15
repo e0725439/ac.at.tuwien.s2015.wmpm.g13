@@ -8,6 +8,8 @@
  */
 package ac.at.tuwien.s2015.wmpm.g13.db;
 
+import java.util.Set;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,10 +20,18 @@ import com.mongodb.DB;
 public class MongoDBConnectionProviderTest {
 
 	@Test
-	public void test() {
+	public void resetDatabase() {
 		DB db = MongoDBConnectionProvider.getInstance().getDB();
 		Assert.assertNotNull(db);
 		Assert.assertTrue(db.isAuthenticated());
+		
+		Set<String> collectionNames = db.getCollectionNames();
+		for (String collection: collectionNames) {
+			if (collection.contains("wmpm")) {
+				System.out.println("Removing collection: " + collection);
+				db.getCollection(collection).drop();
+			}
+		}
 	}
 
 }

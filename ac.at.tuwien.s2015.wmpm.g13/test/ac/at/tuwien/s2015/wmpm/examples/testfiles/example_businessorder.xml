@@ -1,0 +1,37 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+	xmlns:soap="http://soap.services.g13.wmpm.s2015.tuwien.at.ac/">
+	<soapenv:Header />
+	<soapenv:Body>
+		<soap:order>
+			<arg0>
+				<orderId>123456</orderId>
+				<sendDate>2015-07-14</sendDate>
+				<orderDate>2015-07-14</orderDate>
+				<customer>
+					<personId>123654</personId>
+					<email>powermaterials2015@gmail.com</email>
+					<address>Mustergasse 22</address>
+					<name>Musterfirma GMBH</name>
+					<registrationNumber>AT123456</registrationNumber>
+					<countryCourt>Vienna</countryCourt>
+				</customer>
+				<supplier>
+					<personId>1234</personId>
+					<email>powermaterials2015@gmail.com</email>
+					<address>Mustergasse 22</address>
+					<name>PowerMaterials GMBH</name>
+					<registrationNumber>AT32165</registrationNumber>
+					<countryCourt>Vienna</countryCourt>
+				</supplier>
+				<orderItems>
+					<product>
+						<name>Hammer</name>
+						<price>4.99</price>
+						<productId>1</productId>
+					</product>
+					<quantity>12</quantity>
+				</orderItems>
+			</arg0>
+		</soap:order>
+	</soapenv:Body>
+</soapenv:Envelope>

@@ -1,12 +1,12 @@
 package ac.at.tuwien.s2015.wmpm.g13.services.soap;
 
-import javax.jws.WebService;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.BusinessOrder;
 
-import ac.at.tuwien.s2015.wmpm.g13.model.BusinessOrder;
+import javax.jws.WebService;
 
 @WebService
 public interface BusinessOrderService {
 
-	public BusinessOrder order(BusinessOrder order);
-	
+    public BusinessOrder order(BusinessOrder order);
+
 }

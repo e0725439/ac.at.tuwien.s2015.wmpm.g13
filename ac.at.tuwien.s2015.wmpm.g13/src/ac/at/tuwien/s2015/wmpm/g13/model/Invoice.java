@@ -1,72 +1,61 @@
 /**
  * Copyright (c) 2015. All rights reserved.
- * 
+ * <p/>
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS".
  * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
  * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES.
- * 
  */
 package ac.at.tuwien.s2015.wmpm.g13.model;
 
-import java.math.BigDecimal;
+import ac.at.tuwien.s2015.wmpm.g13.model.order.Order;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Invoice {
 
-	private SimpleOrder order;
+    private Order order;
 
-	private BigDecimal totalPrice;
+    private double totalPrice;
 
-	// the date the invoice was issued on
-	private Date creationDate;
+    private Date creationDate;
 
-	public Invoice() {
-		// empty constructor
-	}
-	
-	/**
-	 * @return the order
-	 */
-	public SimpleOrder getOrder() {
-		return order;
-	}
+    private boolean payed;
 
-	/**
-	 * @param order
-	 *            the order to set
-	 */
-	public void setOrder(SimpleOrder order) {
-		this.order = order;
-	}
+    public Invoice() {
+        // empty constructor
+    }
 
-	/**
-	 * @return the totalPrice
-	 */
-	public BigDecimal getTotalPrice() {
-		return totalPrice;
-	}
+    public boolean getPayed() {
+        return this.payed;
+    }
 
-	/**
-	 * @param totalPrice
-	 *            the totalPrice to set
-	 */
-	public void setTotalPrice(BigDecimal totalPrice) {
-		this.totalPrice = totalPrice;
-	}
+    public void setPayed(boolean payed) {
+        this.payed = payed;
+    }
 
-	/**
-	 * @return the creationDate
-	 */
-	public Date getCreationDate() {
-		return creationDate;
-	}
+    public Order getOrder() {
+        return order;
+    }
 
-	/**
-	 * @param creationDate
-	 *            the creationDate to set
-	 */
-	public void setCreationDate(Date creationDate) {
-		this.creationDate = creationDate;
-	}
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
 }
