@@ -49,7 +49,7 @@ public class RESTRoute extends RouteBuilder {
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(400))
                 .setHeader(Exchange.CONTENT_TYPE, constant("text/plain"))
                 .setBody().simple("Invalid data values:\n${exception.message}");
-
+        
         rest("/services/rest").put("/simpleorder").consumes("application/json")
                 .type(SimpleOrder.class).produces("text/html")
                 .to("direct:order_put");
