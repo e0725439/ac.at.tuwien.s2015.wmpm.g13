@@ -20,7 +20,7 @@ public class ShipmentCompletionRoute extends RouteBuilder {
 	public void configure() throws Exception {
 		// Check every 30s if there are any open orders that can be shipped
 		from("quartz2://shipmentCompletionTimer?cron=0/10+*+*+*+*+?")
-				.routeId("shipmentCompletionProcess")
+				.routeId("shipmentCompletion")
 				.bean(shipmentCompletionBean).choice()
 				.when(header("shipped").isEqualTo(true))
 				.inOnly("seda:shipment-email.queue") // USE SEDA QUEUE
