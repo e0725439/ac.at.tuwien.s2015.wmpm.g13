@@ -32,12 +32,12 @@ public class SupplierRoute extends RouteBuilder {
     public void configure() throws Exception {
 
         // Daily SupplierProcess
-        from("quartz2://supplierTimer?trigger.repeatCount=0").routeId("cronSupplierProcess")
+        from("quartz2://supplierTimer?trigger.repeatCount=0").routeId("CronSupplierJob")
                 .to("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemmissing}}&operation=findAll")
                 .inOnly("seda:company_removeMissingItems.queue")
                 .to("direct:supplier_missingOrderItems");
 
-        from("seda:company_removeMissingItems.queue").process(new Processor() {
+        from("seda:company_removeMissingItems.queue").routeId("RemoveMissingItems").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.item.missing");
@@ -45,23 +45,19 @@ public class SupplierRoute extends RouteBuilder {
             }
         }).to("mongodb:myDb?database={{mongo_db_name}}&operation=command");
 
-        from("direct:supplier_missingOrderItems")
+        from("direct:supplier_missingOrderItems").routeId("SupplierOrder")
                 .delay(3000)
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
                 .bean(supplierOrderItemsBean)
-                .to("direct:company_receiveMissingSimpleOrder");
+                .to("direct:company_receiveMissingOrder");
 
-        from("direct:company_receiveMissingSimpleOrder")
+        from("direct:company_receiveMissingOrder").routeId("ReceiveMissingOrder")
                 .split(body()).parallelProcessing()
                 .to("direct:supplier_receiveInvoice")
                 .to("direct:company_putOrderItems")
                 .end();
 
-        //WTF? Deadlock with CustomerRoute
-        //from("direct:supplier_receiveInvoice")
-        //        .log("Supplier got the paid invoice, done with the action");
-
-        from("direct:company_putOrderItems")
+        from("direct:company_putOrderItems").routeId("ReplenishStock")
                 .bean(missingOrderItemBean)
                 .log("Refreshed the inventory of our company");
     }
