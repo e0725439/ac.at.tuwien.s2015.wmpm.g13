@@ -47,7 +47,7 @@ public class TestRoute extends RouteBuilder {
         rest("/services/rest").get("/test/simpleorder")
                 .produces("application/json").to("direct:generate_restorder");
 
-        from("direct:generate_restorder").process(new Processor() {
+        from("direct:generate_restorder").routeId("TestGenerateOrder").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
                 SimpleOrder order = new SimpleOrder();
@@ -94,15 +94,15 @@ public class TestRoute extends RouteBuilder {
 
         rest("/services/rest").get("/test/createdb")
                 .produces("application/json").to("direct:generate_product");
-        from("direct:generate_product")
+        from("direct:generate_product").routeId("TestGenerateProduct")
                 .bean(dbProductBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_product}}&operation=insert")
                 .to("direct:orderitem");
-        from("direct:orderitem")
+        from("direct:orderitem").routeId("TestGenerateItem")
                 .bean(dbOrderItemBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemstock}}&operation=insert")
                 .to("direct:missingitem");
-        from("direct:missingitem")
+        from("direct:missingitem").routeId("TestMissingItem")
                 .bean(dbMissingItemBean)
                 .wireTap("mongodb:myDb?database={{mongo_db_name}}&collection={{mongo_db_collection_itemmissing}}&operation=insert")
                 .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201));
@@ -110,7 +110,7 @@ public class TestRoute extends RouteBuilder {
 
         rest("/services/rest").get("/test/dropdb")
                 .produces("application/json").to("direct:dropdb");
-        from("direct:dropdb").process(new Processor() {
+        from("direct:dropdb").routeId("TestDropDB").process(new Processor() {
             @Override
             public void process(Exchange exchange) throws Exception {
                 DBObject commandBody = new BasicDBObject("drop", "wmpm.order.simple");

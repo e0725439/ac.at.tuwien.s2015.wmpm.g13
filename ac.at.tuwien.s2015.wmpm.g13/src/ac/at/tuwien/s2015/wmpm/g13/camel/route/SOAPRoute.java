@@ -33,10 +33,7 @@ public class SOAPRoute extends RouteBuilder {
                 .setHeader(Exchange.CONTENT_TYPE, constant("application/xml"))
                 .setBody().simple("Invalid data values:\n${exception.message}");
         
-        from(uri)
-        	.to("direct:businessorder_soap");
-
-        from("direct:businessorder_soap")
+        from(uri).routeId("SOAP")
             .log("Received SOAP message with a business order")
             .setHeader(Exchange.HTTP_RESPONSE_CODE, constant(201))
             .bean(idGeneratorBean)

@@ -18,7 +18,7 @@ public class CustomerRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
         from("direct:supplier_receiveInvoice")
-                .routeId("supplierReceiveInvoice")
+                .routeId("SupplierReceiveInvoice")
                 .process(new Processor() {
                     @Override
                     public void process(Exchange exchange) throws Exception {

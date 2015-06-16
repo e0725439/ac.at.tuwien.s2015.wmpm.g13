@@ -23,7 +23,7 @@ public class OrderRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 
-		from("direct:order_processing")
+		from("direct:order_processing").routeId("OrderProcessing")
 			.log("Processing order now...")
 				.bean(orderProcessBean).choice()
 				.when(header("shipped").isEqualTo(true))

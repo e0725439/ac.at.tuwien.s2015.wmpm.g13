@@ -36,7 +36,7 @@ public class OrderConfirmationRoute extends RouteBuilder {
         Predicate isSimpleOrder = (Predicate) simple("${in.body.getClass} == 'ac.at.tuwien.s2015.wmpm.g13.model.order.SimpleOrder'");
 
         // ORDER CONFIRMATIONS
-        from("seda:confirmation-email.queue")
+        from("seda:confirmation-email.queue").routeId("EmailConfirmation")
     	.choice()	
     		.when(isSimpleOrder)
             	.bean(confirmationEmailBean)
@@ -50,7 +50,7 @@ public class OrderConfirmationRoute extends RouteBuilder {
                 .endChoice();
 
         // SHIPMENT CONFIRMATIONS
-        from("seda:shipment-email.queue")
+        from("seda:shipment-email.queue").routeId("EmailShipment")
         	.bean(shipmentEmailBean)
         	.end();
     }

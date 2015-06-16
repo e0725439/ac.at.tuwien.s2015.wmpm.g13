@@ -20,7 +20,7 @@ public class PaymentRoute extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        from("direct:company_receivePayment")
+        from("direct:company_receivePayment").routeId("ReceivePayment")
                 .log("Receiving the payment of the order from the customer")
                 .bean(paymentBean)
                 .log("Set the invoice to paid, and finishing this workflow");
